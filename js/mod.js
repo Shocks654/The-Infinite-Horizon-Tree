@@ -6,6 +6,7 @@ let modInfo = {
     "tree.js", 
     "00_achievements.js", 
     "01_prestige.js"
+,	"02_boosters.js"
 ],
 
 
@@ -18,13 +19,13 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "1.0",
-	name: "Release",
+	num: "0.9",
+	name: "Prototype",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
-	<h3>v0.0</h3><br>
-		- Added a LOT of layers.<br>`
+	<h3>v0.9</h3><br>
+		- Adding a LOT of layers.<br>`
 
 let winText = `Congratulations! You have reached the end and beaten this game, but for now...`
 
