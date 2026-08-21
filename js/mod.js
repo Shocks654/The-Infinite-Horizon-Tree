@@ -5,10 +5,9 @@ let modInfo = {
 	modFiles: [
     "tree.js", 
     "00_achievements.js", 
-    "01_prestige.js", // Itt van a "p" réteged kódja!
-    "boosters.js", 
-    "generators.js"
+    "01_prestige.js"
 ],
+
 
 
 	discordName: "",
