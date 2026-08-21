@@ -18,8 +18,7 @@ let VERSION = {
 
 let changelog = `<h1>Changelog:</h1><br>
 	<h3>v0.0</h3><br>
-		- Added a LOT of layers.<br>
-		`
+		- Added a LOT of layers.<br>`
 
 let winText = `Congratulations! You have reached the end and beaten this game, but for now...`
 
@@ -41,7 +40,25 @@ function getPointGen() {
 	if(!canGenPoints())
 		return new Decimal(0)
 
-	let gain = new Decimal(1)
+	let gain = new Decimal(0) // 0-ról indul, amíg nincs meg az első upgrade
+    
+    // 11: Alap +1 pont/mp
+    if (hasUpgrade("c", 11)) gain = gain.add(1) 
+    
+    // 12: PP alapú bónusz
+    if (hasUpgrade("c", 12)) gain = gain.times(upgradeEffect("c", 12))
+    
+    // 13: Sima pont alapú bónusz
+    if (hasUpgrade("c", 13)) gain = gain.times(upgradeEffect("c", 13))
+    
+    // 22: Vásárolt upgrade-ek száma alapú bónusz
+    if (hasUpgrade("c", 22)) {
+        let eff = upgradeEffect("c", 22)
+        // 32: Négyzetre emeli a 22-es bónuszát
+        if (hasUpgrade("c", 32)) eff = eff.pow(2)
+        gain = gain.times(eff)
+    }
+    
 	return gain
 }
 
