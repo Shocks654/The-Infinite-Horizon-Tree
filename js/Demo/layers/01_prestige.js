@@ -9,7 +9,7 @@ addLayer("p", {
         points: new Decimal(0),
     }},
 
-    color: "#4BDC13",
+    color: "#31aeb0", // Ez a hivatalos, klasszikus Prestige Tree kék!
     requires: new Decimal(10), 
     resource: "prestige points", 
     baseResource: "points", 
