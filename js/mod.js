@@ -46,7 +46,7 @@ function getPointGen() {
 	if(!canGenPoints())
 		return new Decimal(0)
 
-	let gain = new Decimal(0) // 0-ról indul, amíg nincs meg az első upgrade
+	let gain = new Decimal(0)
     
     // 11: Alap +1 pont/mp
     if (hasUpgrade("c", 11)) gain = gain.add(1) 
