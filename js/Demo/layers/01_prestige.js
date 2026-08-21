@@ -1,8 +1,8 @@
 addLayer("p", {
     name: "Prestige",
     symbol: "P",
-    position: 0,
-    row: 0, 
+    row: 0,
+    cols: 0, 
 
     startData() { return {
         unlocked: true,
