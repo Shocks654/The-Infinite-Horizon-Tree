@@ -13,7 +13,7 @@ addLayer("a", {
     achievements: {
         11: {
             name: "NOOO!",
-            done() { return player.p.points.gte(1) }, // Átírva p-re!
+            done() { return player.p.points.gte(1) },
             tooltip: "Perform a prestige reset.\n\nReward: Keep regular point generation on reset.",
         },
         12: {
@@ -23,7 +23,7 @@ addLayer("a", {
         },
         13: {
             name: "ROW 2 AWAITS!",
-            done() { return player.p.upgrades.length >= 4 }, // Átírva p-re!
+            done() { return player.p.upgrades.length >= 4 },
             tooltip: "Buy all 4 Prestige upgrades.\n\nReward: Unlocks Row 2. (Requirements: 200 points to choose your first layer, 1,000,000 points for the other).",
         },
         14: {
