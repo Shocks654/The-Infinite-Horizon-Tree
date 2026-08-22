@@ -24,8 +24,7 @@ addLayer("a", {
         13: {
             name: "ROW 2 AWAITS!",
             done() { return player.p.upgrades.length >= 4 },
-            tooltip: "Buy all 4 Prestige upgrades"
-    
-        },
+            tooltip: "Buy all 4 Prestige upgrades."
+        }, // PERFECT!
     },
 })
