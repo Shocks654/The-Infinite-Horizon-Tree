@@ -1,15 +1,20 @@
 addLayer("p", {
     name: "Prestige",
     symbol: "P",
-    row: 0,
-    cols: 0, 
+    
+    // Position of the layer on the main tree layout
+    row: 0, 
+    pos: 0, 
+
+    // This tells the engine to ALWAYS display the "P" node on the tree map
+    layerShown() { return true }, 
 
     startData() { return {
         unlocked: true,
         points: new Decimal(0),
     }},
 
-    color: "#31aeb0", // The color for this layer, which affects many elements.
+    color: "#31aeb0", // Classic Prestige Tree teal blue
     requires: new Decimal(10), 
     resource: "prestige points", 
     baseResource: "points", 
@@ -37,6 +42,7 @@ addLayer("p", {
     },
 
     upgrades: {
+        // --- ROW 1 ---
         11: {
             title: "Begin",
             description: "Generate 1 Point every second.",
@@ -58,6 +64,8 @@ addLayer("p", {
             effect() { return player.points.add(1).pow(0.25) },
             effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" },
         },
+        
+        // --- ROW 2 ---
         21: {
             title: "More Prestige",
             description: "Prestige Point gain is increased by 80%.",
@@ -83,6 +91,8 @@ addLayer("p", {
             effect() { return player.points.add(1).log10().add(1).pow(0.75) },
             effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" },
         },
+
+        // --- ROW 3 ---
         31: {
             title: "Super-Synergy",
             description: "Prestige Point gain is raised to the power of 1.05.",
