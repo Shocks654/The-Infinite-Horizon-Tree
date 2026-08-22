@@ -3,8 +3,8 @@ addLayer("p", {
     symbol: "P",
     
     // Position of the layer on the main tree layout
-    row: 0, 
-    pos: 0, 
+    rows: 1, 
+    cols: 1, 
 
     // This tells the engine to ALWAYS display the "P" node on the tree map
     layerShown() { return true }, 
