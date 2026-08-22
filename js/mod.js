@@ -3,10 +3,10 @@ let modInfo = {
 	author: "Shocks654",
 	pointsName: "points",
 	modFiles: [
-    "tree.js", 
-    "00_achievements.js", 
-    "01_prestige.js"
-,	"02_boosters.js"
+	"tree.js",
+	"Demo/layers/00_achievements.js",
+	"Demo/layers/01_prestige.js",
+	"Demo/layers/02_boosters.js"
 ],
 
 
@@ -49,20 +49,20 @@ function getPointGen() {
 
 	let gain = new Decimal(0)
     
-    // 11: Alap +1 pont/mp
-    if (hasUpgrade("c", 11)) gain = gain.add(1) 
+    // 11
+		if (hasUpgrade("p", 11)) gain = gain.add(1)
     
-    // 12: PP alapú bónusz
-    if (hasUpgrade("c", 12)) gain = gain.times(upgradeEffect("c", 12))
+    // 12
+		if (hasUpgrade("p", 12)) gain = gain.times(upgradeEffect("p", 12))
     
-    // 13: Sima pont alapú bónusz
-    if (hasUpgrade("c", 13)) gain = gain.times(upgradeEffect("c", 13))
+    // 13
+		if (hasUpgrade("p", 13)) gain = gain.times(upgradeEffect("p", 13))
     
-    // 22: Vásárolt upgrade-ek száma alapú bónusz
-    if (hasUpgrade("c", 22)) {
-        let eff = upgradeEffect("c", 22)
+    // 22
+		if (hasUpgrade("p", 22)) {
+			let eff = upgradeEffect("p", 22)
         // 32: Négyzetre emeli a 22-es bónuszát
-        if (hasUpgrade("c", 32)) eff = eff.pow(2)
+			if (hasUpgrade("p", 32)) eff = eff.pow(2)
         gain = gain.times(eff)
     }
     
