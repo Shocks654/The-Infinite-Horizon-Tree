@@ -8,6 +8,9 @@ let modInfo = {
     modFiles: [
         "tree.js", 
         "00_achievements.js", 
+        "01_prestige.js", // If your prestige is in layers.js, keep layers.js here!
+        "02_boosters.js",
+        "03_generators.js", // FIXED: Added the brand new generators layer to the sequence!
         "layers.js" 
     ],
 
@@ -86,8 +89,7 @@ function addedPlayerData() { return {
 var displayThings = [
 ]
 
-// Determines when the game "ends" and shows the win screen
-// Determines when the game "ends" and shows the win screen
+// Determines when the game "ends" and shows the win screenn
 function isEndgame() {
     // Perfect hyper-exponential target string format for ee1e10!
     return player.points.gte(new Decimal("e1e10000000000"))
