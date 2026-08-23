@@ -6,7 +6,7 @@ var layoutInfo = {
     treeLayout: ""
 }
 
-// THIS FIXES THE ROW BUG: Tells the map engine exactly where layer "p" is!
+// Map layout definition array to prevent initialization loop errors
 var testTree = [
     ["p"] // Row 0 contains only your Prestige ("p") layer
 ]
@@ -14,7 +14,6 @@ var testTree = [
 // Register the main tree tab within the game engine
 addLayer("tree-tab", {
     tabFormat: [["tree", function() {return (layoutInfo.treeLayout ? layoutInfo.treeLayout : TREE_LAYERS)}]],
-    previousTab: "", // Left completely blank to ensure proper back button functionality
+    previousTab: "none", 
     leftTab: true,
 })
-

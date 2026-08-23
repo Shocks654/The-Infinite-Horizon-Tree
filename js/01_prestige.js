@@ -2,7 +2,7 @@ addLayer("p", {
     name: "prestige",
     symbol: "P",
     
-    // Position of the layer node on the tree map - FIXED TO EXACT SYSTEM PROPERTIES!
+    // Correct engine parameters for tree placement
     row: 0, 
     position: 0, 
 
@@ -13,8 +13,6 @@ addLayer("p", {
         unlocked: true,
 		points: new Decimal(0),
     }},
-    // ...and this is it!
-
 
     color: "#31aeb0", // Classic Prestige Tree teal blue color
     requires: new Decimal(10), 
