@@ -2,13 +2,14 @@ let modInfo = {
 	name: "The Infinite Horizon Tree",
 	author: "Shocks654",
 	pointsName: "points",
-	modFiles: [
+    modFiles: [
     "tree.js", 
-    "00_achievements.js", 
-    "01_prestige.js", // This loads your main Prestige layer
-	"02_boosters.js", // This loads your main Boosters layer
-    "layers.js"       // Kept at the end as an empty file to satisfy the engine
+    "demo/layers/00_achievements.js", 
+    "demo/layers/01_prestige.js",     
+    "demo/layers/02_boosters.js",     // Added boosters with the correct demo path!
+    "layers.js"
 ],
+
 
 
 
