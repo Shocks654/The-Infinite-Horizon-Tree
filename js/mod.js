@@ -102,6 +102,6 @@ function maxTickLength() {
 }
 
 // Use this if you need to undo inflation from an older version.
-function fixOldSave(oldVersion){
+function fixOldSave(oldVersion) {
 }
 
