@@ -97,25 +97,28 @@ addLayer("p", {
             effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" },
         },
 
-        // --- ROW 3 ---
+              // --- ROW 3 (NERFED VERSION) ---
         31: {
             title: "Super-Synergy",
-            description: "Prestige Point gain is raised to the power of 1.05.",
+            description: "Prestige Point gain is raised to the power of 1.01.", // Nerfed from 1.05 to 1.01
             cost: new Decimal(1000),
             unlocked() { return hasUpgrade("p", 23) },
         },
         32: {
             title: "Squared Power",
-            description: "The 'Upgrade Power' upgrade (22) is squared.",
+            description: "The 'Upgrade Power' upgrade (22) is increased by 15%.", // Nerfed from a full square to a flat +15%
             cost: new Decimal(5000),
             unlocked() { return hasUpgrade("p", 31) },
         },
         33: {
             title: "Total Transcendence",
-            description: "Both previous upgrades (31 and 32) are stronger based on your Total Prestige Points.",
+            description: "Both previous upgrades (31 and 32) are slightly stronger based on your Prestige Points.",
             cost: new Decimal(25000),
             unlocked() { return hasUpgrade("p", 32) },
-            effect() { return player.p.points.add(1).log10().add(1).pow(0.5) },
+            // Ultra nerfed formula: uses log10 and a very low power exponent (0.1) to avoid inflation
+            effect() { 
+                return player.p.points.add(1).log10().add(1).pow(0.1) 
+            },
             effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" },
         },
     },
