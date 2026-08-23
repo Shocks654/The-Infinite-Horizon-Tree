@@ -4,9 +4,12 @@ let modInfo = {
 	pointsName: "points",
 	modFiles: [
 	"tree.js",
-	"Demo/layers/00_achievements.js",
-	"Demo/layers/01_prestige.js",
-	"Demo/layers/02_boosters.js"
+	modFiles: [
+    "tree.js", 
+    "00_achievements.js", 
+    "01_prestige.js", // This loads your main Prestige layer
+	"02_boosters.js", // This loads your main Boosters layer
+    "layers.js"       // Kept at the end as an empty file to satisfy the engine
 ],
 
 
