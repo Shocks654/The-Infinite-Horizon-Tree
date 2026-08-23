@@ -1,6 +1,7 @@
 addLayer("p", {
     name: "prestige",
     symbol: "P",
+
     // This tells the engine to ALWAYS display the "P" node on the tree map
     layerShown() { return true }, 
 

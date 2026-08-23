@@ -6,7 +6,7 @@ var layoutInfo = {
     treeLayout: ""
 }
 
-// THIS INDEED FIXES THE ROW BUG: Tells the map engine exactly where layer "p" is!
+// THIS FIXES THE ROW BUG: Tells the map engine exactly where layer "p" is!
 var testTree = [
     ["p"] // Row 0 contains only your Prestige ("p") layer
 ]
@@ -17,3 +17,4 @@ addLayer("tree-tab", {
     previousTab: "", // Left completely blank to ensure proper back button functionality
     leftTab: true,
 })
+
