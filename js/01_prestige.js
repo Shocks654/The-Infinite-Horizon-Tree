@@ -2,7 +2,7 @@ addLayer("p", {
     name: "prestige",
     symbol: "P",
     
-    // Setting up the automated layout coordinates - USING ROWS AND COLS ONLY!
+    // Position of the layer node on the tree map - USING ROWS AND COLS EXACTLY AS REQUESTED!
     rows: 0, 
     cols: 0, 
 
