@@ -87,11 +87,11 @@ var displayThings = [
 ]
 
 // Determines when the game "ends" and shows the win screen
+// Determines when the game "ends" and shows the win screen
 function isEndgame() {
     // Perfect hyper-exponential target string format for ee1e10!
     return player.points.gte(new Decimal("e1e10000000000"))
-
-
+}
 
 
 // Style for the background, can be a function
