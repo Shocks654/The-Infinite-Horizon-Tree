@@ -92,6 +92,7 @@ function isEndgame() {
     return player.points.gte(Decimal.fromEee("1e10"))
 }
 
+
 // Style for the background, can be a function
 var backgroundStyle = {
 }
