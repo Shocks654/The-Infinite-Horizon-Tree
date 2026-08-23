@@ -6,6 +6,11 @@ var layoutInfo = {
     treeLayout: ""
 }
 
+// THIS FIXES THE 'ROW' BUG: The engine needs this list to know how to draw the map rows!
+var testTree = [
+    ["p"] // Row 0 contains only your Prestige ("p") layer
+]
+
 // Register the main tree tab within the game engine
 addLayer("tree-tab", {
     tabFormat: [["tree", function() {return (layoutInfo.treeLayout ? layoutInfo.treeLayout : TREE_LAYERS)}]],
