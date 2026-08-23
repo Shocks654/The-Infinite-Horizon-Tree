@@ -1,20 +1,20 @@
 addLayer("p", {
-    name: "Prestige",
+    name: "prestige",
     symbol: "P",
     
-    // Position of the layer on the main tree layout
-    rows: 1, 
-    cols: 1, 
+    // Setting up the automated layout coordinates - USING ROWS AND COLS ONLY!
+    rows: 0, 
+    cols: 0, 
 
     // This tells the engine to ALWAYS display the "P" node on the tree map
     layerShown() { return true }, 
 
     startData() { return {
         unlocked: true,
-        points: new Decimal(0),
+		points: new Decimal(0),
     }},
 
-    color: "#31aeb0", // Classic Prestige Tree teal blue
+    color: "#31aeb0", // Classic Prestige Tree teal blue color
     requires: new Decimal(10), 
     resource: "prestige points", 
     baseResource: "points", 
@@ -23,23 +23,28 @@ addLayer("p", {
     type: "normal", 
     exponent: 0.5, 
 
+    // Safe upgrade checker structures to prevent any startup execution crashes
     gainMult() { 
         let mult = new Decimal(1)
-        if (hasUpgrade("p", 21)) mult = mult.times(1.8)
-        if (hasUpgrade("p", 23)) mult = mult.times(upgradeEffect("p", 23))
-        if (hasUpgrade("p", 33)) mult = mult.times(upgradeEffect("p", 33))
+        if (player.p && player.p.upgrades && player.p.upgrades.includes(21)) mult = mult.times(1.8)
+        if (player.p && player.p.upgrades && player.p.upgrades.includes(23)) mult = mult.times(upgradeEffect("p", 23))
+        if (player.p && player.p.upgrades && player.p.upgrades.includes(33)) mult = mult.times(upgradeEffect("p", 33))
         return mult
     },
     
     gainExp() { 
         let exp = new Decimal(1)
-        if (hasUpgrade("p", 31)) {
+        if (player.p && player.p.upgrades && player.p.upgrades.includes(31)) {
             let bonus = new Decimal(1.05)
-            if (hasUpgrade("p", 33)) bonus = bonus.times(upgradeEffect("p", 33))
+            if (player.p.upgrades.includes(33)) bonus = bonus.times(upgradeEffect("p", 33))
             exp = exp.times(bonus)
         }
         return exp 
     },
+
+    hotkeys: [
+        {key: "p", description: "P: Reset for prestige points", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+    ],
 
     upgrades: {
         // --- ROW 1 ---

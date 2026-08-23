@@ -8,7 +8,7 @@ let modInfo = {
     "01_prestige.js",     // Clean path, located directly in the js folder
     "02_boosters.js",     // Clean path, located directly in the js folder
     "layers.js"           // Kept to satisfy the engine stability
-]; // <-- Properly closed with a semicolon!
+], // <-- Properly closed!
 
 
 
