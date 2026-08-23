@@ -48,27 +48,37 @@ function getPointGen() {
 	if(!canGenPoints())
 		return new Decimal(0)
 
-	let gain = new Decimal(0)
+	let gain = new Decimal(0) // Starts at 0 until the first upgrade is bought
     
-    // 11
-		if (hasUpgrade("p", 11)) gain = gain.add(1)
+    // Safety check: Only check upgrades if the prestige layer ("p") is fully loaded in memory
+    if (player.p && player.p.upgrades) {
+        // 11: Base +1 point/sec
+        if (player.p.upgrades.includes(11)) gain = gain.add(1) 
+        
+        // 12: Prestige Point boost
+        if (player.p.upgrades.includes(12)) gain = gain.times(upgradeEffect("p", 12))
+        
+        // 13: Point self-synergy boost
+        if (player.p.upgrades.includes(13)) gain = gain.times(upgradeEffect("p", 13))
+        
+        // 22: Bought upgrades boost
+        if (player.p.upgrades.includes(22)) {
+            let eff = upgradeEffect("p", 22)
+            // 32: Squares the effect of upgrade 22
+            if (player.p.upgrades.includes(32)) eff = eff.pow(2)
+            gain = gain.times(eff)
+        }
+    }
     
-    // 12
-		if (hasUpgrade("p", 12)) gain = gain.times(upgradeEffect("p", 12))
-    
-    // 13
-		if (hasUpgrade("p", 13)) gain = gain.times(upgradeEffect("p", 13))
-    
-    // 22
-		if (hasUpgrade("p", 22)) {
-			let eff = upgradeEffect("p", 22)
-        // 32: Négyzetre emeli a 22-es bónuszát
-			if (hasUpgrade("p", 32)) eff = eff.pow(2)
-        gain = gain.times(eff)
+    // Safety check for achievements layer ("a")
+    if (player.a && player.a.achievements) {
+        // Achievement 12 boost: +5% Point generation
+        if (player.a.achievements.includes(12)) gain = gain.times(1.05)
     }
     
 	return gain
 }
+
 
 // You can add non-layer related variables that should to into "player" and be saved here, along with default values
 function addedPlayerData() { return {
