@@ -1,11 +1,6 @@
 addLayer("p", {
     name: "prestige",
     symbol: "P",
-    
-    // Position of the layer node on the tree map - USING ROWS AND COLS EXACTLY AS REQUESTED!
-    rows: 0, 
-    cols: 0, 
-
     // This tells the engine to ALWAYS display the "P" node on the tree map
     layerShown() { return true }, 
 
