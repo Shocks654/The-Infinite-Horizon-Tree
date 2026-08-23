@@ -1,7 +1,9 @@
-# The-Modding-Tree
+#The-Infinite-Horizon-Tree
 
-An incremental game engine based on The Prestige Tree. It still requires programming knowledge, but it's mostly pretty easy things and copy/pasting.
+A Prestige Tree Mod with a lot of layers!
 
-[Look here for a tutorial on getting started with modding with TMT](docs/tutorials/getting-started.md)
+Features:
+- 60 layers! (v1.0)
+- 29 of original and 31 new!
 
-You can look in the [documentation](docs/!general-info.md) for more information on how it all works, or look at the code in [layers.js](js/layers.js) to see what it all looks like.
+It will be great!
