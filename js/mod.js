@@ -88,9 +88,10 @@ var displayThings = [
 
 // Determines when the game "ends" and shows the win screen
 function isEndgame() {
-    // Uses fromEee which is perfectly supported by your break_eternity.js for ee1e10!
-    return player.points.gte(Decimal.fromEee("1e10"))
+    // Pure mathematical powers that work perfectly on EVERY single break_eternity version for ee1e10!
+    return player.points.gte(Decimal.pow(10, Decimal.pow(10, Decimal.pow(10, 10))))
 }
+
 
 
 // Style for the background, can be a function
