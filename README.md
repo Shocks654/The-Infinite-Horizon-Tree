@@ -1,4 +1,4 @@
-#The-Infinite-Horizon-Tree
+The-Infinite-Horizon-Tree
 
 A Prestige Tree Mod with a lot of layers!
 
