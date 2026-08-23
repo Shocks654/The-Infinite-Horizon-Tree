@@ -2,14 +2,13 @@ let modInfo = {
 	name: "The Infinite Horizon Tree",
 	author: "Shocks654",
 	pointsName: "points",
-   // List of files that contain the layers of your game tree
     modFiles: [
     "tree.js", 
-    "00_achievements.js", // Clean path, directly in the js folder
-    "01_prestige.js",     // Clean path, directly in the js folder
-    "02_boosters.js",     // Clean path, directly in the js folder
-    "layers.js"
-],
+    "00_achievements.js", // Clean path, located directly in the js folder
+    "01_prestige.js",     // Clean path, located directly in the js folder
+    "02_boosters.js",     // Clean path, located directly in the js folder
+    "layers.js"           // Kept to satisfy the engine stability
+]; // <-- Properly closed with a semicolon!
 
 
 
