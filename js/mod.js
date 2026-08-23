@@ -1,25 +1,22 @@
 let modInfo = {
 	name: "The Infinite Horizon Tree",
-	id: "infinitehorizontree", // Fixed: Added unique game ID for saving data correctly
+	id: "infinitehorizontree", 
 	author: "Shocks654",
 	pointsName: "points",
     
     // List of files that contain the layers of your game tree
     modFiles: [
-        "00_achievements.js", // Loads achievements data first
-        "01_prestige.js",     // Loads your Prestige (p) layer code into memory
-        "02_boosters.js",     // Loads your Boosters (b) layer code into memory
-        "tree.js",            // NOW the tree loads, finding layer "p" successfully!
-        "layers.js"           // Kept for architecture stability
+        "tree.js", 
+        "00_achievements.js", 
+        "layers.js" 
     ],
 
 	discordName: "",
 	discordLink: "",
 	initialStartPoints: new Decimal(10), // Used for hard resets and new players
-	initialLayers: ["p"], // FIXED: Added initialLayers so Vue.js knows to render the "p" layer on startup!
+	initialLayers: ["p"], 
 	offlineLimit: 1000,  // In hours
 }
-
 
 // Set your version in num and name
 let VERSION = {
@@ -31,10 +28,9 @@ let changelog = `<h1>Changelog:</h1><br>
 	<h3>v0.9</h3><br>
 		- Adding a LOT of layers.<br>`
 
-let winText = `Congratulations! You have reached the end and beaten this game, but for now...`
+let winText = `Congratulations! You have reached the end of the current version of The Infinite Horizon Tree!`
 
 // If you add new functions anywhere inside of a layer, and those functions have an effect when called, add them here.
-// (The ones here are examples, all official functions are already taken care of)
 var doNotCallTheseFunctionsEveryTick = ["Idonotknowwhatisthis"]
 
 function getStartPoints(){
@@ -64,14 +60,14 @@ function getPointGen() {
         // 13: Point self-synergy boost
         if (player.p.upgrades.includes(13)) gain = gain.times(upgradeEffect("p", 13))
         
-               // 22: Bought upgrades boost
+        // 22: Bought upgrades boost
         if (player.p.upgrades.includes(22)) {
             let eff = upgradeEffect("p", 22)
             // 32: Raised to the power of 1.3 exactly!
             if (player.p.upgrades.includes(32)) eff = eff.pow(1.3)
             gain = gain.times(eff)
         }
-
+    }
     
     // Safety check for achievements layer ("a")
     if (player.a && player.a.achievements) {
@@ -82,7 +78,6 @@ function getPointGen() {
 	return gain
 }
 
-
 // You can add non-layer related variables that should to into "player" and be saved here, along with default values
 function addedPlayerData() { return {
 }}
@@ -91,26 +86,21 @@ function addedPlayerData() { return {
 var displayThings = [
 ]
 
-// Determines when the game "ends"
+// Determines when the game "ends" and shows the win screen
 function isEndgame() {
-	return player.points.gte(new Decimal("e1000000000000000000000000000000000"))
+    // Balanced hyper-exponential endgame target set to ee1e10!
+    return player.points.gte(Decimal.fromHyperE("ee1e10"))
 }
-
-
-
-// Less important things beyond this point!
 
 // Style for the background, can be a function
 var backgroundStyle = {
-
 }
 
 // You can change this if you have things that can be messed up by long tick lengths
 function maxTickLength() {
-	return(1000) // Default is 1 hour which is just arbitrarily large
+	return(1000) 
 }
 
-// Use this if you need to undo inflation from an older version. If the version is older than the version that fixed the issue,
-// you can cap their current resources with this.
+// Use this if you need to undo inflation from an older version.
 function fixOldSave(oldVersion){
 }
