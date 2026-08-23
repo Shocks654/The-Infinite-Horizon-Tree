@@ -3,8 +3,6 @@ let modInfo = {
 	author: "Shocks654",
 	pointsName: "points",
 	modFiles: [
-	"tree.js",
-	modFiles: [
     "tree.js", 
     "00_achievements.js", 
     "01_prestige.js", // This loads your main Prestige layer
