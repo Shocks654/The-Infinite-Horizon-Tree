@@ -14,7 +14,7 @@ addLayer("p", {
 		points: new Decimal(0),
     }},
 
-    color: "#31aeb0", // Classic Prestige Tree teal blue color
+    color: "#008080", // Updated to official Teal/Dark Cyan!
     requires: new Decimal(10), 
     resource: "prestige points", 
     baseResource: "points", 

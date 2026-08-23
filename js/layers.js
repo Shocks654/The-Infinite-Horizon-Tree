@@ -14,7 +14,7 @@ addLayer("p", {
 		points: new Decimal(0),
     }},
 
-    color: "#31aeb0", // Classic Prestige Tree teal blue color
+    color: "#008080", // Updated to official Teal/Dark Cyan!
     requires: new Decimal(10), 
     resource: "prestige points", 
     baseResource: "points", 
@@ -144,7 +144,7 @@ addLayer("b", {
         unlocked: false,
         points: new Decimal(0),
     }},
-    color: "#4bacdc",
+    color: "#4b0082", // Updated to official Indigo!
     
     // Dynamic Base Cost: 200 baseline. Spikes to 1,000,000 if Generators are bought first
     cost() {
@@ -172,17 +172,20 @@ addLayer("b", {
     milestones: {
         0: {
             requirement: new Decimal(8),
-            unlocked() { return player.b.unlocked },
             requirementDescription: "8 Boosters",
             effectDescription: "Keep Prestige Upgrades on reset.",
+            done() { return player.b.points.gte(8) }, // FIXED: Added mandatory done() function!
+            unlocked() { return player.b.unlocked },
         },
         1: {
             requirement: new Decimal(15),
-            unlocked() { return player.b.unlocked },
             requirementDescription: "15 Boosters",
             effectDescription: "You can buy max Boosters.",
+            done() { return player.b.points.gte(15) }, // FIXED: Added mandatory done() function!
+            unlocked() { return player.b.unlocked },
         }
     },
+
 
     upgrades: {
         // --- ROW 1 ---
@@ -297,8 +300,9 @@ addLayer("g", {
         points: new Decimal(0),
         power: new Decimal(0), // Added storage for Generator Power (GP) tracking
     }},
-    color: "#e25822", // Flame orange color
-    
+
+    color: "#98fb98", // Updated to official Pale Green!
+
     // Dynamic Base Cost: 200 baseline. Spikes to 1,000,000 if Boosters are bought first
     cost() {
         let baseCost = new Decimal(200)
@@ -332,26 +336,30 @@ addLayer("g", {
         }
     },
 
-    milestones: {
+       milestones: {
         0: {
             requirement: new Decimal(8),
-            unlocked() { return player.g.unlocked },
             requirementDescription: "8 Generators",
             effectDescription: "Keep Prestige Upgrades on reset.",
+            done() { return player.g.points.gte(8) }, // FIXED: Added mandatory done() function!
+            unlocked() { return player.g.unlocked },
         },
         1: {
             requirement: new Decimal(10),
-            unlocked() { return player.g.unlocked },
             requirementDescription: "10 Generators",
             effectDescription: "You gain 100% of Prestige Point gain every second.",
+            done() { return player.g.points.gte(10) }, // FIXED: Added mandatory done() function!
+            unlocked() { return player.g.unlocked },
         },
         2: {
             requirement: new Decimal(15),
-            unlocked() { return player.g.unlocked },
             requirementDescription: "15 Generators",
             effectDescription: "You can buy max Generators.",
+            done() { return player.g.points.gte(15) }, // FIXED: Added mandatory done() function!
+            unlocked() { return player.g.unlocked },
         }
     },
+
 
     upgrades: {
         // --- ROW 1 ---

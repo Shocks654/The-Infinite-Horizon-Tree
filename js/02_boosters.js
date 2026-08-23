@@ -7,7 +7,7 @@ addLayer("b", {
         unlocked: false,
         points: new Decimal(0),
     }},
-    color: "#4bacdc",
+    color: "#4b0082", // Updated to official Indigo!
     
     // Dynamic Base Cost: 200 baseline. Spikes to 1,000,000 if Generators are bought first
     cost() {
@@ -35,17 +35,20 @@ addLayer("b", {
     milestones: {
         0: {
             requirement: new Decimal(8),
-            unlocked() { return player.b.unlocked },
             requirementDescription: "8 Boosters",
             effectDescription: "Keep Prestige Upgrades on reset.",
+            done() { return player.b.points.gte(8) }, // FIXED: Added mandatory done() function!
+            unlocked() { return player.b.unlocked },
         },
         1: {
             requirement: new Decimal(15),
-            unlocked() { return player.b.unlocked },
             requirementDescription: "15 Boosters",
             effectDescription: "You can buy max Boosters.",
+            done() { return player.b.points.gte(15) }, // FIXED: Added mandatory done() function!
+            unlocked() { return player.b.unlocked },
         }
     },
+
 
     upgrades: {
         // --- ROW 1 ---
