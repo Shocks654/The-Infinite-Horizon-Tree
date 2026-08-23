@@ -2,13 +2,15 @@ let modInfo = {
 	name: "The Infinite Horizon Tree",
 	author: "Shocks654",
 	pointsName: "points",
-    modFiles: [
-    "tree.js", 
-    "00_achievements.js", // Clean path, located directly in the js folder
-    "01_prestige.js",     // Clean path, located directly in the js folder
-    "02_boosters.js",     // Clean path, located directly in the js folder
-    "layers.js"           // Kept to satisfy the engine stability
-], // <-- Properly closed!
+    // List of files that contain the layers of your game tree
+modFiles: [
+    "00_achievements.js", // Loads achievements data first
+    "01_prestige.js",     // Loads your Prestige (p) layer code into memory
+    "02_boosters.js",     // Loads your Boosters (b) layer code into memory
+    "tree.js",            // NOW the tree loads, finding layer "p" successfully!
+    "layers.js"           // Kept for architecture stability
+],
+
 
 
 
