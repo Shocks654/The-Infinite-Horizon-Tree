@@ -1,26 +1,25 @@
 let modInfo = {
 	name: "The Infinite Horizon Tree",
+	id: "infinitehorizontree", // Fixed: Added unique game ID for saving data correctly
 	author: "Shocks654",
 	pointsName: "points",
+    
     // List of files that contain the layers of your game tree
-modFiles: [
-    "00_achievements.js", // Loads achievements data first
-    "01_prestige.js",     // Loads your Prestige (p) layer code into memory
-    "02_boosters.js",     // Loads your Boosters (b) layer code into memory
-    "tree.js",            // NOW the tree loads, finding layer "p" successfully!
-    "layers.js"           // Kept for architecture stability
-],
-
-
-
-
-
+    modFiles: [
+        "00_achievements.js", // Loads achievements data first
+        "01_prestige.js",     // Loads your Prestige (p) layer code into memory
+        "02_boosters.js",     // Loads your Boosters (b) layer code into memory
+        "tree.js",            // NOW the tree loads, finding layer "p" successfully!
+        "layers.js"           // Kept for architecture stability
+    ],
 
 	discordName: "",
 	discordLink: "",
-	initialStartPoints: new Decimal (10), // Used for hard resets and new players
+	initialStartPoints: new Decimal(10), // Used for hard resets and new players
+	initialLayers: ["p"], // FIXED: Added initialLayers so Vue.js knows to render the "p" layer on startup!
 	offlineLimit: 1000,  // In hours
 }
+
 
 // Set your version in num and name
 let VERSION = {
