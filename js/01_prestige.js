@@ -54,12 +54,18 @@ addLayer("p", {
         },
         12: {
             title: "Prestige Boost",
-            description: "Prestige Points boost Point generation.",
+            description: "Prestige Points boost Point generation. (Hardcapped at e500x)",
             cost: new Decimal(1),
             unlocked() { return hasUpgrade("p", 11) },
-            effect() { return player.p.points.add(1) },
+            effect() { 
+                let eff = player.p.points.add(1)
+                // Hardcap at exactly 1e500 to keep the simulation controlled
+                if (eff.gte(new Decimal("1e500"))) return new Decimal("1e500")
+                return eff
+            },
             effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" },
         },
+
         13: {
             title: "Self-Synergy",
             description: "Points boost their own generation. (Hardcapped at 1,000,000x)",
