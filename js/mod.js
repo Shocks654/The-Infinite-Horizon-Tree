@@ -64,14 +64,14 @@ function getPointGen() {
         // 13: Point self-synergy boost
         if (player.p.upgrades.includes(13)) gain = gain.times(upgradeEffect("p", 13))
         
-        // 22: Bought upgrades boost
+               // 22: Bought upgrades boost
         if (player.p.upgrades.includes(22)) {
             let eff = upgradeEffect("p", 22)
-            // 32: Squares the effect of upgrade 22
-            if (player.p.upgrades.includes(32)) eff = eff.pow(2)
+            // 32: Raised to the power of 1.3 exactly!
+            if (player.p.upgrades.includes(32)) eff = eff.pow(1.3)
             gain = gain.times(eff)
         }
-    }
+
     
     // Safety check for achievements layer ("a")
     if (player.a && player.a.achievements) {

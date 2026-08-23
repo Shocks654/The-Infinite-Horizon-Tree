@@ -2,7 +2,7 @@ addLayer("p", {
     name: "prestige",
     symbol: "P",
     
-    // Correct engine parameters for tree placement
+    // Grid positioning for the layer node on the tree map
     row: 0, 
     position: 0, 
 
@@ -34,10 +34,9 @@ addLayer("p", {
     
     gainExp() { 
         let exp = new Decimal(1)
+        // 31: Super-Synergy applies a flat ^1.01 power to Prestige Point gain directly here!
         if (player.p && player.p.upgrades && player.p.upgrades.includes(31)) {
-            let bonus = new Decimal(1.05)
-            if (player.p.upgrades.includes(33)) bonus = bonus.times(upgradeEffect("p", 33))
-            exp = exp.times(bonus)
+            exp = exp.times(1.01)
         }
         return exp 
     },
@@ -63,10 +62,15 @@ addLayer("p", {
         },
         13: {
             title: "Self-Synergy",
-            description: "Points boost their own generation.",
+            description: "Points boost their own generation. (Hardcapped at 1,000,000x)",
             cost: new Decimal(5),
             unlocked() { return hasUpgrade("p", 12) },
-            effect() { return player.points.add(1).pow(0.25) },
+            effect() { 
+                let eff = player.points.add(1).pow(0.25)
+                // Hardcap at 1,000,000x to prevent infinite explosion
+                if (eff.gte(1000000)) return new Decimal(1000000)
+                return eff
+            },
             effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" },
         },
         
@@ -97,27 +101,29 @@ addLayer("p", {
             effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" },
         },
 
-              // --- ROW 3 (NERFED VERSION) ---
+        // --- ROW 3 ---
         31: {
             title: "Super-Synergy",
-            description: "Prestige Point gain is raised to the power of 1.01.", // Nerfed from 1.05 to 1.01
+            description: "Prestige Point gain is raised to the power of 1.01.",
             cost: new Decimal(1000),
             unlocked() { return hasUpgrade("p", 23) },
         },
         32: {
             title: "Squared Power",
-            description: "The 'Upgrade Power' upgrade (22) is increased by 15%.", // Nerfed from a full square to a flat +15%
+            description: "The 'Upgrade Power' upgrade (22) is raised to the power of 1.3.", // Upgraded to ^1.3 as requested!
             cost: new Decimal(5000),
             unlocked() { return hasUpgrade("p", 31) },
         },
         33: {
             title: "Total Transcendence",
-            description: "Both previous upgrades (31 and 32) are slightly stronger based on your Prestige Points.",
+            description: "Both previous upgrades (31 and 32) are stronger based on your Total Prestige Points. (Hardcapped at 10x)",
             cost: new Decimal(25000),
             unlocked() { return hasUpgrade("p", 32) },
-            // Ultra nerfed formula: uses log10 and a very low power exponent (0.1) to avoid inflation
             effect() { 
-                return player.p.points.add(1).log10().add(1).pow(0.1) 
+                let eff = player.p.points.add(1).log10().add(1).pow(0.1)
+                // Hardcap at exactly 10x boost to control inflation
+                if (eff.gte(10)) return new Decimal(10)
+                return eff
             },
             effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" },
         },
