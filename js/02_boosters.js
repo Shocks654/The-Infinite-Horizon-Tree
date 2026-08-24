@@ -9,15 +9,10 @@ addLayer("b", {
     }},
     color: "#4b0082", // Colors of the night Indigo
     
-    // FIXED THE 0 COST BUG: Implementation of your precise (5^(x^1.25))*200 scale!
     cost() {
         let x = player.b.points
         let formula = Decimal.pow(5, x.pow(1.25)).times(200)
-        
-        // Dynamic cross-requirement handling for Row 2 choice
-        if (player.g && player.g.unlocked && !player.b.unlocked) {
-            return formula.max(1000000)
-        }
+        if (player.g && player.g.unlocked && !player.b.unlocked) return formula.max(1000000)
         return formula
     },
     
@@ -29,13 +24,9 @@ addLayer("b", {
     gainMult() { return new Decimal(1) },
     gainExp() { return new Decimal(1) },
 
-    // This dynamically links the layers visually with line branches on the tree map!
+    // Draws the branch connection lines directly on the map
     branches: ["p"], 
-
-    layerShown() {
-        if (player.p && player.p.upgrades.length >= 4) return true 
-        return false 
-    },
+    layerShown() { return player.p.upgrades.length >= 4 },
 
     milestones: {
         0: {
@@ -43,14 +34,12 @@ addLayer("b", {
             requirementDescription: "8 Boosters",
             effectDescription: "Keep Prestige Upgrades on reset.",
             done() { return player.b.points.gte(8) },
-            unlocked() { return player.b.unlocked },
         },
         1: {
             requirement: new Decimal(15),
             requirementDescription: "15 Boosters",
             effectDescription: "You can buy max Boosters.",
             done() { return player.b.points.gte(15) },
-            unlocked() { return player.b.unlocked },
         }
     },
 
@@ -66,7 +55,7 @@ addLayer("b", {
             title: "Cross-Contamination",
             description: "Generators add to the Booster base.",
             cost: new Decimal(7),
-            unlocked() { return player.b.unlocked || player.g.unlocked },
+            unlocked() { return player.b.unlocked || (player.g && player.g.unlocked) },
             effect() {
                 let x = player.g ? player.g.points : new Decimal(0)
                 return x.add(1).log10().add(1).sqrt().div(3)

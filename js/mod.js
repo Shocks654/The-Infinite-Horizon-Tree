@@ -105,6 +105,36 @@ function maxTickLength() {
 	return(1000) 
 }
 
+// ============================================================================
+// THE INFINITE HORIZON TREE - GLOBAL SOFTCAP ENGINE FUNCTION
+// ============================================================================
+function applySoftcap(val, start, type, mag) {
+    if (val.lt(start)) return val; // No softcap applied if below the threshold
+    
+    start = new Decimal(start);
+    mag = new Decimal(mag);
+    
+    // 1. ROOT TYPE FORMULA: val.times(start.pow(mag.sub(1))).root(mag)
+    if (type === "root") {
+        return val.times(start.pow(mag.sub(1))).root(mag);
+    }
+    
+    // 2. EXPROOT TYPE FORMULA: Decimal.pow(10, val.log10().root(mag).times(start.log10().pow(Decimal.sub(1, mag.pow(-1)))))
+    if (type === "expRoot") {
+        let exp = Decimal.sub(1, Decimal.pow(mag, -1));
+        let power = val.log10().root(mag).times(start.log10().pow(exp));
+        return Decimal.pow(10, power);
+    }
+    
+    // 3. LOG TYPE FORMULA: val.log10().pow(exp).times(start.div(start.log10().pow(exp)))
+    if (type === "log") {
+        let power = val.log10().pow(mag).times(start.div(start.log10().pow(mag)));
+        return power;
+    }
+    
+    return val;
+}
+
 // Use this if you need to undo inflation from an older version.
 function fixOldSave(oldVersion) {
 }

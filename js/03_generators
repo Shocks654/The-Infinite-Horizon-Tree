@@ -10,14 +10,10 @@ addLayer("g", {
     }},
     color: "#98fb98", // Colors of the night Pale Green
     
-    // FIXED THE 0 COST BUG: Implementation of your precise (5^(x^1.25))*200 scale!
     cost() {
         let x = player.g.points
         let formula = Decimal.pow(5, x.pow(1.25)).times(200)
-        
-        if (player.b && player.b.unlocked && !player.g.unlocked) {
-            return formula.max(1000000)
-        }
+        if (player.b && player.b.unlocked && !player.g.unlocked) return formula.max(1000000)
         return formula
     },
 
@@ -29,19 +25,21 @@ addLayer("g", {
     gainMult() { return new Decimal(1) },
     gainExp() { return new Decimal(1) },
 
-    // FIXED THE BRANCH BUG: This links the generators visually directly to the Prestige node!
     branches: ["p"], 
-
-    layerShown() {
-        if (player.p && player.p.upgrades.length >= 4) return true 
-        return false 
-    },
+    layerShown() { return player.p.upgrades.length >= 4 },
 
     update(diff) {
         if (player.g.unlocked) {
             let gain = player.g.points.pow(2) 
             if (hasUpgrade("g", 21)) gain = gain.times(player.g.power.add(1).log10().add(1))
             if (hasUpgrade("g", 25)) gain = gain.times(player.p.points.add(1).log10().pow(3).add(1))
+            
+            // 10 Generators Passive Milestone Automation: Gives 100% of PP gain per second!
+            if (player.g.points.gte(10)) {
+                let ppGain = getResetGain("p")
+                player.p.points = player.p.points.add(ppGain.times(diff))
+            }
+            
             player.g.power = player.g.power.add(gain.times(diff))
         }
     },
@@ -52,27 +50,24 @@ addLayer("g", {
             requirementDescription: "8 Generators",
             effectDescription: "Keep Prestige Upgrades on reset.",
             done() { return player.g.points.gte(8) },
-            unlocked() { return player.g.unlocked },
         },
         1: {
             requirement: new Decimal(10),
             requirementDescription: "10 Generators",
             effectDescription: "You gain 100% of Prestige Point gain every second.",
             done() { return player.g.points.gte(10) },
-            unlocked() { return player.g.unlocked },
         },
         2: {
             requirement: new Decimal(15),
             requirementDescription: "15 Generators",
             effectDescription: "You can buy max Generators.",
             done() { return player.g.points.gte(15) },
-            unlocked() { return player.g.unlocked },
         }
     },
 
     upgrades: {
         11: { title: "GP Combo", description: "Best Generators boost Prestige Point gain.", cost: new Decimal(3), effect() { return player.g.points.sqrt().add(1) }, effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" } },
-        12: { title: "I Need More!", description: "Boosters add to the Generator base.", cost: new Decimal(7), unlocked() { return player.b.unlocked || player.g.unlocked }, effect() { let x = player.b ? player.b.points : new Decimal(0); return x.add(1).log10().add(1).sqrt().div(3) }, effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" } },
+        12: { title: "I Need More!", description: "Boosters add to the Generator base.", cost: new Decimal(7), unlocked() { return (player.b && player.b.unlocked) || player.g.unlocked }, effect() { let x = player.b ? player.b.points : new Decimal(0); return x.add(1).log10().add(1).sqrt().div(3) }, effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" } },
         13: { title: "I Need More II", description: "Best Prestige Points add to the Generator base.", cost: new Decimal(8), unlocked() { return player.g.points.gte(8) }, effect() { return player.p.points.add(1).log10().add(1).log10().div(3) }, effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" } },
         14: { title: "Boost the Boost", description: "Prestige Boost is raised to the power of 1.5.", cost: new Decimal(13), unlocked() { return player.g.points.gte(10) } },
         15: { title: "Outer Synergy", description: "Self-Synergy is stronger based on your Generators.", cost: new Decimal(15), unlocked() { return hasUpgrade("g", 13) }, effect() { return player.g.points.sqrt().add(1) }, effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" } },

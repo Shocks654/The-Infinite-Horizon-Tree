@@ -54,17 +54,18 @@ addLayer("p", {
         },
         12: {
             title: "Prestige Boost",
-            description: "Prestige Points boost Point generation. (Hardcapped at e500x)",
+            description: "Prestige Points boost Point generation. (Softcaps at 1e3,500x)",
             cost: new Decimal(1),
             unlocked() { return hasUpgrade("p", 11) },
             effect() { 
-                let eff = player.p.points.add(1)
-                // Hardcap at exactly 1e500 to keep the simulation controlled
-                if (eff.gte(new Decimal("1e500"))) return new Decimal("1e500")
-                return eff
+                let eff = player.p.points.add(2).pow(0.5); // Baseline: (x+2)^0.50
+                
+                // FIXED WITH YOUR EXACT SOFTCAP MATH: Starts at 1e3500, type log, mag 1
+                return applySoftcap(eff, new Decimal("1e3500"), "log", 1);
             },
             effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" },
         },
+
         13: {
             title: "Self-Synergy",
             description: "Points boost their own generation. (Hardcapped at 1,000,000x)",
