@@ -30,7 +30,12 @@ addLayer("b", {
     branches: [
         ["p", {"stroke": "#ffffff", "stroke-width": 4}]
     ], 
-    layerShown() { try { return player.p && player.p.upgrades && player.p.upgrades.length >= 3; } catch(e) { return false; } },
+    // Always visible once Row 2 is unlocked, colors/grey status is managed by the cost!
+    layerShown() { 
+        if (player.p && player.p.upgrades && player.p.upgrades.length >= 3) return true;
+        if (player.b && player.b.unlocked) return true;
+        return false;
+    },
     canBuyMax() { try { return player.b && player.b.points && player.b.points.gte(15); } catch(e) { return false; } },
     milestones: {
         0: { requirement: new Decimal(8), requirementDescription: "8 Boosters", effectDescription: "Keep Prestige Upgrades on reset.", done() { try { return player.b.points.gte(8); } catch(e) { return false; } } },
