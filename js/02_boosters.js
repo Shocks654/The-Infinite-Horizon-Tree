@@ -5,21 +5,23 @@ addLayer("b", {
     position: -1, 
     startData() { return { unlocked: false, points: new Decimal(0) }},
     color: "#4b0082", 
-    
-    // JEEHAN STATIC COST METHOD: Uses the raw parameter 'x' to calculate solid scaling
-    cost(x) {
+        cost(x) {
         try {
             let amt = new Decimal(x !== undefined ? x : player.b.points);
             let formula = Decimal.pow(5, amt.pow(1.25)).times(200);
             
+            // SHENANIGANS^NAN BLOCKER: Only applies exponentiation if count is strictly greater than 0!
             if (player.g && player.g.points) {
                 let genAmount = new Decimal(player.g.points);
-                if (genAmount.gt(0)) formula = formula.times(Decimal.pow(10, genAmount.pow(1.5)));
+                if (genAmount.gt(0) && !isNaN(genAmount.mag)) {
+                    formula = formula.times(Decimal.pow(10, genAmount.pow(1.5)));
+                }
             }
             if (player.g && player.g.unlocked && !player.b.unlocked) return formula.max(1000000);
             return formula;
         } catch(e) { return new Decimal(200); }
     },
+
     resource: "boosters",
     baseResource: "points", 
     baseAmount() { return player.points }, 
