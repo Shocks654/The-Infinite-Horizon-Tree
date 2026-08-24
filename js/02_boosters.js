@@ -5,10 +5,13 @@ addLayer("b", {
     position: -1, 
     startData() { return { unlocked: false, points: new Decimal(0) }},
     color: "#4b0082", 
-    cost() {
+    
+    // JEEHAN STATIC COST METHOD: Uses the raw parameter 'x' to calculate solid scaling
+    cost(x) {
         try {
-            let x = player.b.points;
-            let formula = Decimal.pow(5, x.pow(1.25)).times(200);
+            let amt = new Decimal(x !== undefined ? x : player.b.points);
+            let formula = Decimal.pow(5, amt.pow(1.25)).times(200);
+            
             if (player.g && player.g.points) {
                 let genAmount = new Decimal(player.g.points);
                 if (genAmount.gt(0)) formula = formula.times(Decimal.pow(10, genAmount.pow(1.5)));
@@ -24,10 +27,9 @@ addLayer("b", {
     exponent: 1.25,
     gainMult() { return new Decimal(1) },
     gainExp() { return new Decimal(1) },
-    // WHITE BRANCHES: Renders the connection lines in pure white (#ffffff) to match the cyber aesthetic!
     branches: [
         ["p", {"stroke": "#ffffff", "stroke-width": 4}]
-    ],
+    ], 
     layerShown() { try { return player.p && player.p.upgrades && player.p.upgrades.length >= 3; } catch(e) { return false; } },
     canBuyMax() { try { return player.b && player.b.points && player.b.points.gte(15); } catch(e) { return false; } },
     milestones: {
