@@ -13,15 +13,30 @@ addLayer("p", {
     type: "normal", 
     exponent: 0.5, 
 
+        // REWRITTEN GAINMULT: Safe raw memory checks that completely bypass easyAccess.js undefined crashes!
     gainMult() { 
         let mult = new Decimal(1)
-        if (hasUpgrade("p", 21)) mult = mult.times(1.8)
-        if (hasUpgrade("p", 23)) mult = mult.times(upgradeEffect("p", 23))
-        if (hasUpgrade("p", 33)) mult = mult.times(upgradeEffect("p", 33))
-        if (player.b && hasUpgrade("b", 11)) mult = mult.times(upgradeEffect("b", 11))
-        if (player.g && hasUpgrade("g", 11)) mult = mult.times(upgradeEffect("g", 11))
+        
+        // Safe check for Prestige row 2 upgrades
+        if (player.p && player.p.upgrades) {
+            if (player.p.upgrades.includes(21)) mult = mult.times(1.8)
+            if (player.p.upgrades.includes(23)) mult = mult.times(upgradeEffect("p", 23))
+            if (player.p.upgrades.includes(33)) mult = mult.times(upgradeEffect("p", 33))
+        }
+        
+        // PURE RAW CHECK: Only checks Boosters upgrade 11 if the player has explicitly unlocked the layer!
+        if (player.b && player.b.unlocked && player.b.upgrades && player.b.upgrades.includes(11)) {
+            mult = mult.times(upgradeEffect("b", 11))
+        }
+        
+        // PURE RAW CHECK: Only checks Generators upgrade 11 if the player has explicitly unlocked the layer!
+        if (player.g && player.g.unlocked && player.g.upgrades && player.g.upgrades.includes(11)) {
+            mult = mult.times(upgradeEffect("g", 11))
+        }
+        
         return mult
     },
+
     gainExp() { 
         let exp = new Decimal(1)
         if (hasUpgrade("p", 31)) exp = exp.times(1.05)
