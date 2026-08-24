@@ -1,10 +1,3 @@
-// ============================================================================
-// THE INFINITE HORIZON TREE - ANTI-CRASH BULK SHIELD ENGINE (v0.9)
-// ============================================================================
-
-// ============================================================================
-// LAYER 1: PRESTIGE (P) - CORE DEFENSE BLOCK
-// ============================================================================
 addLayer("p", {
     name: "prestige",
     symbol: "P",
@@ -34,21 +27,21 @@ addLayer("p", {
                     mult = mult.times(t_eff);
                 }
             }
-        } catch(e) { console.error("Prestige multiplier calculation bypassed safely:", e); }
+        } catch(e) { console.error("Prestige multiplier error shielded:", e); }
         
         try {
             if (player.b && player.b.unlocked && player.b.upgrades && player.b.upgrades.includes(11)) {
-                let bx = player.b.points || new Decimal(0);
+                let bx = new Decimal(player.b.points || 0);
                 mult = mult.times(bx.sqrt().add(1));
             }
-        } catch(e) { console.warn("Booster data uninitialized, crash averted safely."); }
+        } catch(e) { console.warn("Booster uninitialized shield active."); }
         
         try {
             if (player.g && player.g.unlocked && player.g.upgrades && player.g.upgrades.includes(11)) {
-                let gx = player.g.points || new Decimal(0);
+                let gx = new Decimal(player.g.points || 0);
                 mult = mult.times(gx.sqrt().add(1));
             }
-        } catch(e) { console.warn("Generator data uninitialized, crash averted safely."); }
+        } catch(e) { console.warn("Generator uninitialized shield active."); }
         return mult;
     },
 
@@ -120,4 +113,4 @@ addLayer("p", {
             effectDisplay() { try { return format(upgradeEffect(this.layer, this.id))+"x"; } catch(e) { return "1x"; } },
         },
     },
-});
+})

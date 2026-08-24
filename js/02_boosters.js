@@ -1,6 +1,3 @@
-// ============================================================================
-// LAYER 2: BOOSTERS (B) - SHIELDED INSULATION BLOCK
-// ============================================================================
 addLayer("b", {
     name: "Boosters",
     symbol: "B",
@@ -12,13 +9,17 @@ addLayer("b", {
         try {
             let x = player.b.points;
             let formula = Decimal.pow(5, x.pow(1.25)).times(200);
+            if (player.g && player.g.points) {
+                let genAmount = new Decimal(player.g.points);
+                if (genAmount.gt(0)) formula = formula.times(Decimal.pow(10, genAmount.pow(1.5)));
+            }
             if (player.g && player.g.unlocked && !player.b.unlocked) return formula.max(1000000);
             return formula;
         } catch(e) { return new Decimal(200); }
     },
     resource: "boosters",
-    baseResource: "points", // Updated to track regular points for purchasing!
-    baseAmount() { return player.points }, // Correctly tracks player regular points!
+    baseResource: "points", 
+    baseAmount() { return player.points }, 
     type: "static",
     exponent: 1.25,
     gainMult() { return new Decimal(1) },
@@ -35,4 +36,4 @@ addLayer("b", {
         12: { title: "Cross-Contamination", description: "Generators add to the Booster base.", cost: new Decimal(7), unlocked() { try { return player.b.unlocked || (player.g && player.g.unlocked); } catch(e) { return false; } }, effect() { try { let x = player.g ? player.g.points : new Decimal(0); return x.add(1).log10().add(1).sqrt().div(3); } catch(e) { return new Decimal(1); } } },
         13: { title: "PB Reversal", description: "Total Prestige Points add to the Booster effect base.", cost: new Decimal(8), unlocked() { try { return player.b.points.gte(7); } catch(e) { return false; } }, effect() { try { return player.p.points.add(1).log10().add(1).log10().div(3); } catch(e) { return new Decimal(1); } } },
     },
-});
+})
