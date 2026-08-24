@@ -13,24 +13,27 @@ addLayer("p", {
     type: "normal", 
     exponent: 0.5, 
 
-    // THE ULTIMATE SHIELD: Replaced hasUpgrade with raw array checks to bypass easyAccess crash!
+    // THE NUCLEAR SHIELD: Replaced upgradeEffect with raw math variables to avoid ALL easyAccess crashes!
     gainMult() { 
         let mult = new Decimal(1)
         
         if (player.p && player.p.upgrades) {
             if (player.p.upgrades.includes(21)) mult = mult.times(1.8)
-            if (player.p.upgrades.includes(23)) mult = mult.times(upgradeEffect("p", 23))
-            if (player.p.upgrades.includes(33)) mult = mult.times(upgradeEffect("p", 33))
+            // Safe manual fallback logic for prestige effects
+            if (player.p.upgrades.includes(23)) mult = mult.times(player.points.add(1).log10().pow(1/3).add(1))
+            if (player.p.upgrades.includes(33)) mult = mult.times(player.p.points.add(1).log10().add(1).log10().div(5).add(1))
         }
         
-        // Raw array inclusion check - directly reads the save file to protect the engine!
+        // RAW MATH INJECTION FOR BOOSTERS 11: Uses sqrt(x)+1 directly from your table!
         if (player.b && player.b.upgrades && player.b.upgrades.includes(11)) {
-            mult = mult.times(upgradeEffect("b", 11))
+            let bx = player.b.points || new Decimal(0)
+            mult = mult.times(bx.sqrt().add(1))
         }
         
-        // Raw array inclusion check - completely immunizes against the 404 undefined error!
+        // RAW MATH INJECTION FOR GENERATORS 11: Uses sqrt(x)+1 directly, fully ignoring the 404 error!
         if (player.g && player.g.upgrades && player.g.upgrades.includes(11)) {
-            mult = mult.times(upgradeEffect("g", 11))
+            let gx = player.g.points || new Decimal(0)
+            mult = mult.times(gx.sqrt().add(1))
         }
         
         return mult
@@ -99,3 +102,4 @@ addLayer("p", {
         },
     },
 })
+
