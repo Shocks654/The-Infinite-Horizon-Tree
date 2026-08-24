@@ -64,19 +64,19 @@ addLayer("p", {
 
     upgrades: {
         11: { title: "Begin", description: "Generate 1 Point every second.", cost: new Decimal(1)},
-        12: {
+         12: {
             title: "Prestige Boost",
             description: "Prestige Points boost Point generation.",
             cost: new Decimal(1),
             unlocked() { return hasUpgrade("p", 11) },
+            // EXACT PT:R FORMULA: sqrt(x + 2) which yields ~1.73x at 1 PP and exactly 2.00x at 2 PP!
             effect() { 
-                try {
-                    let eff = player.p.points.add(2).pow(0.5);
-                    return applySoftcap(eff, new Decimal("1e3500"), "log", 1);
-                } catch(e) { return new Decimal(1); }
+                let eff = player.p.points.add(2).sqrt(); 
+                return applySoftcap(eff, new Decimal("1e3500"), "log", 1);
             },
-            effectDisplay() { try { return format(upgradeEffect(this.layer, this.id))+"x"; } catch(e) { return "1x"; } },
-        },
+            effectDisplay() { try { return format(upgradeEffect(this.layer, this.id))+"x"; } catch(e) { return "1.41x"; }},
+            },
+
         13: {
             title: "Self-Synergy",
             description: "Points boost their own generation.",
