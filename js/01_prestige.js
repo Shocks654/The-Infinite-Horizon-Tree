@@ -64,7 +64,7 @@ addLayer("p", {
 
     upgrades: {
         11: { title: "Begin", description: "Generate 1 Point every second.", cost: new Decimal(1) },
-                12: {
+        12: {
             title: "Prestige Boost",
             description: "Prestige Points boost Point generation.",
             cost: new Decimal(1),
