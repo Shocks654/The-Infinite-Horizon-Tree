@@ -153,7 +153,13 @@ addLayer("b", {
         if (player.b && player.b.unlocked) return true;
         return false;
     },
-    canBuyMax() { try { return player.b && player.b.points && player.b.points.gte(15); } catch(e) { return false; } },
+    // SAFE BUY MAX ENGINE: Prevents infinite loops and NaN crashes above 15 boosters
+    canBuyMax() { 
+        if (!player.b || player.b.points === undefined) return false;
+        if (new Decimal(player.b.points).lt(15)) return false;
+        if (player.points && player.points.layer && player.points.layer === "NaN") return false;
+        return true;
+    },
     milestones: {
         0: { requirement: new Decimal(8), requirementDescription: "8 Boosters", effectDescription: "Keep Prestige Upgrades on reset.", done() { try { return player.b.points.gte(8); } catch(e) { return false; } } },
         1: { requirement: new Decimal(15), requirementDescription: "15 Boosters", effectDescription: "You can buy max Boosters.", done() { try { return player.b.points.gte(15); } catch(e) { return false; } } }
@@ -203,8 +209,13 @@ addLayer("g", {
         if (player.g && player.g.unlocked) return true;
         return false;
     },
-
-    canBuyMax() { try { return player.g && player.g.points && player.g.points.gte(15); } catch(e) { return false; } },
+    // SAFE BUY MAX ENGINE: Prevents infinite loops and NaN crashes above 15 generators
+    canBuyMax() { 
+        if (!player.g || player.g.points === undefined) return false;
+        if (new Decimal(player.g.points).lt(15)) return false;
+        if (player.points && player.points.layer && player.points.layer === "NaN") return false;
+        return true;
+    },
     update(diff) {
         try {
             if (player.g && player.g.unlocked) {

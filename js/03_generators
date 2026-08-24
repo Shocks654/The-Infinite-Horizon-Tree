@@ -36,7 +36,13 @@ addLayer("g", {
         if (player.g && player.g.unlocked) return true;
         return false;
     },
-    canBuyMax() { try { return player.g && player.g.points && player.g.points.gte(15); } catch(e) { return false; } },
+    // SAFE BUY MAX ENGINE: Prevents infinite loops and NaN crashes above 15 generators
+    canBuyMax() { 
+        if (!player.g || player.g.points === undefined) return false;
+        if (new Decimal(player.g.points).lt(15)) return false;
+        if (player.points && player.points.layer && player.points.layer === "NaN") return false;
+        return true;
+    },
     update(diff) {
         try {
             if (player.g && player.g.unlocked) {
