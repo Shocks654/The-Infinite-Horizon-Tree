@@ -13,24 +13,23 @@ addLayer("p", {
     type: "normal", 
     exponent: 0.5, 
 
-        // REWRITTEN GAINMULT: Safe raw memory checks that completely bypass easyAccess.js undefined crashes!
+    // THE ULTIMATE SHIELD: Replaced hasUpgrade with raw array checks to bypass easyAccess crash!
     gainMult() { 
         let mult = new Decimal(1)
         
-        // Safe check for Prestige row 2 upgrades
         if (player.p && player.p.upgrades) {
             if (player.p.upgrades.includes(21)) mult = mult.times(1.8)
             if (player.p.upgrades.includes(23)) mult = mult.times(upgradeEffect("p", 23))
             if (player.p.upgrades.includes(33)) mult = mult.times(upgradeEffect("p", 33))
         }
         
-        // PURE RAW CHECK: Only checks Boosters upgrade 11 if the player has explicitly unlocked the layer!
-        if (player.b && player.b.unlocked && player.b.upgrades && player.b.upgrades.includes(11)) {
+        // Raw array inclusion check - directly reads the save file to protect the engine!
+        if (player.b && player.b.upgrades && player.b.upgrades.includes(11)) {
             mult = mult.times(upgradeEffect("b", 11))
         }
         
-        // PURE RAW CHECK: Only checks Generators upgrade 11 if the player has explicitly unlocked the layer!
-        if (player.g && player.g.unlocked && player.g.upgrades && player.g.upgrades.includes(11)) {
+        // Raw array inclusion check - completely immunizes against the 404 undefined error!
+        if (player.g && player.g.upgrades && player.g.upgrades.includes(11)) {
             mult = mult.times(upgradeEffect("g", 11))
         }
         
@@ -39,11 +38,10 @@ addLayer("p", {
 
     gainExp() { 
         let exp = new Decimal(1)
-        if (hasUpgrade("p", 31)) exp = exp.times(1.05)
+        if (player.p && player.p.upgrades && player.p.upgrades.includes(31)) exp = exp.times(1.05)
         return exp 
     },
 
-    // FIXED: bm0 and gm0 ONLY work for their own separate resets!
     doReset(resettingLayer) {
         let keep = [];
         if (resettingLayer === "b" && hasMilestone("b", 0)) keep.push("upgrades")
@@ -101,6 +99,7 @@ addLayer("p", {
         },
     },
 })
+
 
 addLayer("b", {
     name: "Boosters",
