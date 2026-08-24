@@ -4,138 +4,68 @@ let modInfo = {
 	author: "Shocks654",
 	pointsName: "points",
     
-    // List of files that contain the layers of your game tree
+    // FIXED LOADING ORDER: Kept only individual clean files to prevent duplicates!
     modFiles: [
         "tree.js", 
         "00_achievements.js", 
-        "01_prestige.js", // If your prestige is in layers.js, keep layers.js here!
+        "01_prestige.js",
         "02_boosters.js",
-        "03_generators.js", // FIXED: Added the brand new generators layer to the sequence!
-        "layers.js" 
+        "03_generators.js"
     ],
 
 	discordName: "",
 	discordLink: "",
-	initialStartPoints: new Decimal(10), // Used for hard resets and new players
+	initialStartPoints: new Decimal(10), 
 	initialLayers: ["p"], 
-	offlineLimit: 1000,  // In hours
+	offlineLimit: 1000, 
 }
 
-// Set your version in num and name
-let VERSION = {
-	num: "0.9",
-	name: "Prototype",
-}
-
-let changelog = `<h1>Changelog:</h1><br>
-	<h3>v0.9</h3><br>
-		- Adding a LOT of layers.<br>`
-
-let winText = `Congratulations! You have reached the end of the current version of The Infinite Horizon Tree!`
-
-// If you add new functions anywhere inside of a layer, and those functions have an effect when called, add them here.
+let VERSION = { num: "0.9", name: "Prototype" }
+let changelog = `<h1>Changelog:</h1><br><h3>v0.9</h3><br>- Adding a LOT of layers.<br>`
+let winText = `Congratulations! You have reached the end of the current version!`
 var doNotCallTheseFunctionsEveryTick = ["Idonotknowwhatisthis"]
 
-function getStartPoints(){
-    return new Decimal(modInfo.initialStartPoints)
-}
+function getStartPoints(){ return new Decimal(modInfo.initialStartPoints) }
+function canGenPoints(){ return true }
 
-// Determines if it should show points/sec
-function canGenPoints(){
-	return true
-}
-
-// Calculate points/sec!
+// FIXED POINT GENERATION CHAIN: Now links perfectly with your separate layers and achi rewards!
 function getPointGen() {
-	if(!canGenPoints())
-		return new Decimal(0)
-
-	let gain = new Decimal(0) // Starts at 0 until the first upgrade is bought
+	if(!canGenPoints()) return new Decimal(0)
+	let gain = new Decimal(0) 
     
-    // Safety check: Only check upgrades if the prestige layer ("p") is fully loaded in memory
-    if (player.p && player.p.upgrades) {
-        // 11: Base +1 point/sec
-        if (player.p.upgrades.includes(11)) gain = gain.add(1) 
-        
-        // 12: Prestige Point boost
-        if (player.p.upgrades.includes(12)) gain = gain.times(upgradeEffect("p", 12))
-        
-        // 13: Point self-synergy boost
-        if (player.p.upgrades.includes(13)) gain = gain.times(upgradeEffect("p", 13))
-        
-        // 22: Bought upgrades boost
-        if (player.p.upgrades.includes(22)) {
-            let eff = upgradeEffect("p", 22)
-            // 32: Raised to the power of 1.3 exactly!
-            if (player.p.upgrades.includes(32)) eff = eff.pow(1.3)
-            gain = gain.times(eff)
-        }
+    if (player.p && player.p.unlocked) {
+        if (hasUpgrade("p", 11)) gain = gain.add(1) 
+        if (hasUpgrade("p", 12)) gain = gain.times(upgradeEffect("p", 12))
+        if (hasUpgrade("p", 13)) gain = gain.times(upgradeEffect("p", 13))
+        if (hasUpgrade("p", 22)) gain = gain.times(upgradeEffect("p", 22))
     }
     
-    // Safety check for achievements layer ("a")
-    if (player.a && player.a.achievements) {
-        // Achievement 12 boost: +5% Point generation
-        if (player.a.achievements.includes(12)) gain = gain.times(1.05)
-    }
+    // Achi 12 reward: +5% point generation
+    if (hasAchievement("a", 12)) gain = gain.times(1.05)
+    // Achi 21 reward: Generate points 10% faster
+    if (hasAchievement("a", 21)) gain = gain.times(1.10)
     
 	return gain
 }
 
-// You can add non-layer related variables that should to into "player" and be saved here, along with default values
-function addedPlayerData() { return {
-}}
+function addedPlayerData() { return {} }
+var displayThings = []
+function isEndgame() { return player.points.gte(new Decimal("e1e10000000000")) }
+var backgroundStyle = {}
+function maxTickLength() { return(1000) }
+function fixOldSave(oldVersion){}
 
-// Display extra things at the top of the page
-var displayThings = [
-]
-
-// Determines when the game "ends" and shows the win screenn
-function isEndgame() {
-    // Perfect hyper-exponential target string format for ee1e10!
-    return player.points.gte(new Decimal("e1e10000000000"))
-}
-
-
-// Style for the background, can be a function
-var backgroundStyle = {
-}
-
-// You can change this if you have things that can be messed up by long tick lengths
-function maxTickLength() {
-	return(1000) 
-}
-
-// ============================================================================
-// THE INFINITE HORIZON TREE - GLOBAL SOFTCAP ENGINE FUNCTION
-// ============================================================================
+// GLOBAL SOFTCAP ENGINE FUNCTION
+// Formulas: root, expRoot, log
 function applySoftcap(val, start, type, mag) {
-    if (val.lt(start)) return val; // No softcap applied if below the threshold
-    
+    if (val.lt(start)) return val;
     start = new Decimal(start);
     mag = new Decimal(mag);
-    
-    // 1. ROOT TYPE FORMULA: val.times(start.pow(mag.sub(1))).root(mag)
-    if (type === "root") {
-        return val.times(start.pow(mag.sub(1))).root(mag);
-    }
-    
-    // 2. EXPROOT TYPE FORMULA: Decimal.pow(10, val.log10().root(mag).times(start.log10().pow(Decimal.sub(1, mag.pow(-1)))))
+    if (type === "root") return val.times(start.pow(mag.sub(1))).root(mag);
     if (type === "expRoot") {
         let exp = Decimal.sub(1, Decimal.pow(mag, -1));
-        let power = val.log10().root(mag).times(start.log10().pow(exp));
-        return Decimal.pow(10, power);
+        return Decimal.pow(10, val.log10().root(mag).times(start.log10().pow(exp)));
     }
-    
-    // 3. LOG TYPE FORMULA: val.log10().pow(exp).times(start.div(start.log10().pow(exp)))
-    if (type === "log") {
-        let power = val.log10().pow(mag).times(start.div(start.log10().pow(mag)));
-        return power;
-    }
-    
+    if (type === "log") return val.log10().pow(mag).times(start.div(start.log10().pow(mag)));
     return val;
 }
-
-// Use this if you need to undo inflation from an older version.
-function fixOldSave(oldVersion) {
-}
-
