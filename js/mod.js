@@ -1,7 +1,16 @@
 // ============================================================================
 // THE INFINITE HORIZON TREE - MOD.JS REWRITTEN ENGINE CORES
-// PART 1: RAW INSULATED HEAD STRUCTURE (mod_top)
+// PART 1: RAW INSULATED HEAD STRUCTURE WITH VUE SAFE SHIELD (mod_top)
 // ============================================================================
+
+// METAMATRIX SHIELD: Prevents 'Vue is not defined' crashes if CDN loads slow
+if (typeof Vue === 'undefined') {
+    var Vue = function() {
+        console.warn("Vue proxy shield engaged temporarily during boot.");
+    };
+    Vue.set = function(obj, key, val) { if (obj) obj[key] = val; };
+    Vue.delete = function(obj, key) { if (obj) delete obj[key]; };
+}
 
 let modInfo = {
     name: "The Infinite Horizon Tree",
@@ -39,7 +48,6 @@ function getStartPoints() {
         }
         return new Decimal(10);
     } catch(e) {
-        console.error("Shielded fallback start points initialized:", e);
         return new Decimal(10);
     }
 }
@@ -51,6 +59,7 @@ function canGenPoints() {
         return true;
     }
 }
+
 // ============================================================================
 // THE INFINITE HORIZON TREE - MOD.JS REWRITTEN ENGINE CORES
 // PART 2: ULTRA-BULKY SHIELDED ENGINE & TELEMETRY (mod_bottom)
