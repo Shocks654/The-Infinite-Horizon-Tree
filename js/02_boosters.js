@@ -4,8 +4,18 @@ addLayer("b", {
     row: 1,
     position: -1, 
     startData() { return { unlocked: false, points: new Decimal(0) }},
-    color: "#4b0082", 
-        cost(x) {
+        color: "#4b0082", 
+    // EVERY SINGLE BOOSTER DOUBLES POINT GENERATION (2^x)
+    effect() {
+        let b_amt = new Decimal(player.b.points || 0);
+        return Decimal.pow(2, b_amt); // Exponential scaling: 2^x formula realized!
+    },
+    effectDescription() {
+        let eff = this.effect();
+        return "which are boosting Point generation by " + format(eff) + "x";
+    },
+    cost(x) {
+
         try {
             let amt = new Decimal(x !== undefined ? x : player.b.points);
             let formula = Decimal.pow(5, amt.pow(1.25)).times(200);

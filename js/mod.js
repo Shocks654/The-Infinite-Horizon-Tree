@@ -25,16 +25,27 @@ var doNotCallTheseFunctionsEveryTick = ["Idonotknowwhatisthis"]
 function getStartPoints(){ return new Decimal(modInfo.initialStartPoints) }
 function canGenPoints(){ return true }
 
+// Calculate points/sec!
 function getPointGen() {
 	if(!canGenPoints()) return new Decimal(0)
-	let gain = new Decimal(0) 
+	let gain = new Decimal(0) // Starts at 0 until the first upgrade is bought
     
+    // Safety check: Only check upgrades if prestige layer ("p") is loaded in memory
     if (player.p && player.p.unlocked) {
         if (hasUpgrade("p", 11)) gain = gain.add(1) 
         if (hasUpgrade("p", 12)) gain = gain.times(upgradeEffect("p", 12))
         if (hasUpgrade("p", 13)) gain = gain.times(upgradeEffect("p", 13))
     }
     
+    // BOOSTER POINT BOOST INJECTION: Applies the exact exponential 2^x multiplier!
+    if (player.b && player.b.unlocked) {
+        let b_amt = new Decimal(player.b.points || 0);
+        if (b_amt.gt(0)) {
+            gain = gain.times(Decimal.pow(2, b_amt)); // Every single booster doubles point generation!
+        }
+    }
+    
+    // Achievement rewards multiplier logic
     if (hasAchievement("a", 12)) gain = gain.times(1.05)
     if (hasAchievement("a", 21)) gain = gain.times(1.10)
     
