@@ -1,3 +1,8 @@
+/* ============================================================================
+   THE INFINITE HORIZON TREE - GENERAL STYLES MATRIX
+   SYSTEM STATUS: CORB SECURITY SHIELDED FONTS ENFORCED
+   ============================================================================ */
+
 /* Global things */
 body {
 	color: var(--color);
@@ -5,16 +10,19 @@ body {
 	--background: #0f0f0f;
 	--color: #dfdfdf;
 	--points: #ffffff;
-	background: var(--background)
+	background: var(--background);
+	
+	/* CORB PROTECTION SHIELD: Direct built-in system typography applied safely */
+	font-family: "Lucida Console", "Consolas", "Courier New", monospace;
 }
 
 /* General text */
 h1, h2, h3, b, input {
 	display: inline;
-	font-family: "Lucida Console", "Courier New", monospace
+	font-family: "Lucida Console", "Consolas", "Courier New", monospace;
 }
 
-/* These are styles for different states of components. You can make layer-specific versions with .c.locked, for example */
+/* These are styles for different states of components. */
 .locked {
 	background-color: #bf8f8f;
 	cursor: not-allowed;
@@ -27,7 +35,7 @@ h1, h2, h3, b, input {
 
 .can:hover {
 	transform: scale(1.15, 1.15);
-	box-shadow: 0 0 20px var(--points)
+	box-shadow: 0 0 20px var(--points);
 }
 
 .bought {
