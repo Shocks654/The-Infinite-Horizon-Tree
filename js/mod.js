@@ -1,5 +1,5 @@
 // ============================================================================
-// THE INFINITE HORIZON TREE - MOD.JS ENGINE CORES
+// THE INFINITE HORIZON TREE - MOD.JS REWRITTEN ENGINE CORES
 // PART 1: RAW PRODUCTION HEAD STRUCTURE (mod_top)
 // ============================================================================
 
@@ -30,26 +30,13 @@ let winText = "Congratulations! You have reached the end of the current version!
 var doNotCallTheseFunctionsEveryTick = ["Idonotknowwhatisthis"];
 
 function getStartPoints() {
-    try {
-        if (modInfo) {
-            if (modInfo.initialStartPoints) {
-                let points_base = new Decimal(modInfo.initialStartPoints);
-                return points_base;
-            }
-        }
-        return new Decimal(10);
-    } catch(e) {
-        return new Decimal(10);
-    }
+    return new Decimal(modInfo.initialStartPoints);
 }
 
 function canGenPoints() {
-    try {
-        return true;
-    } catch(e) {
-        return true;
-    }
+    return true;
 }
+
 // ============================================================================
 // THE INFINITE HORIZON TREE - MOD.JS REWRITTEN ENGINE CORES
 // PART 2: BULKY HUMAN-READABLE TELEMETRY SHIELD MATRIX (mod_bottom)
