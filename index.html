@@ -1,9 +1,27 @@
 <!DOCTYPE html>
-
+<html>
 <head>
 
-	<!-- TRUE NEON FAVICON ALIGNMENT: Capital Letter H Cyber-Teal Icon Locked In -->
-	<link rel="icon" type="image/x-icon" href="favicon.ico">
+	<!-- INLINE RETRO CYBER GRADIENT FAVICON: Yellow-Pink-Orange H Letter Layout -->
+	<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,
+		<svg xmlns='http://w3.org' viewBox='0 0 32 32'>
+			<defs>
+				<linearGradient id='sunsetH' x1='0%' y1='0%' x2='0%' y2='100%'>
+					<stop offset='0%' stop-color='%23FFFF00'/>
+					<stop offset='50%' stop-color='%23FF007F'/>
+					<stop offset='100%' stop-color='%23FF8C00'/>
+				</linearGradient>
+			</defs>
+			<rect width='32' height='32' fill='black'/>
+			<text x='50%' y='55%' 
+				font-family='Inconsolata, monospace' 
+				font-weight='bold' 
+				font-size='22' 
+				fill='url(%23sunsetH)' 
+				text-anchor='middle' 
+				dominant-baseline='middle'>H</text>
+		</svg>">
+
 	<title>The Infinite Horizon Tree</title>
 
 	<link rel="stylesheet" type="text/css" href="css/system-style.css" />
@@ -15,9 +33,9 @@
 	<link rel="stylesheet" type="text/css" href="css/popup.css" />
 	<link rel="stylesheet" type="text/css" href="css/tree-node.css" />
 
-	<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+	<link href="https://googleapis.com" rel="stylesheet">
 
-	<script src="https://unpkg.com/vue@2.7.16/dist/vue.min.js"></script>
+	<script src="https://unpkg.com"></script>
 	<script src="js/technical/break_eternity.js"></script>
 	<script src="js/technical/layerSupport.js"></script>
 
@@ -42,14 +60,12 @@
 	<script src="js/utils/themes.js"></script>
 
 </head>
-
-
 <body onload="load()" onmousemove="updateMouse(event)">
 	<div id="app">
 		<canvas id="treeCanvas" class="canvas" v-if="!(tmp.gameEnded && !player.keepGoing)"></canvas>
 
 		<div v-if="false" id="loadingSection" class="fullWidth">
-			<h1>Loading... (If this takes too long it means there was a serious error!)←</h1>
+			<h1>Loading... (If this takes too long it means there was a serious error!)</h1>
 		</div>
 		<div class="vl" v-if="player.navTab !== 'none' && tmp.other.splitScreen && player.tab!='none' && !(tmp.gameEnded && !player.keepGoing)"></div>
 		<div v-if="(tmp.gameEnded && !player.keepGoing)" class="fullWidth">
@@ -64,9 +80,9 @@
 			<br><br><br>
 			<span v-if="modInfo.discordLink"><a class="link" v-bind:href="modInfo.discordLink"
 					target="_blank">{{modInfo.discordName}}</a><br></span>
-			<a class="link" href="https://discord.gg/F3xveHV" target="_blank"
+			<a class="link" href="https://discord.gg" target="_blank"
 				v-bind:style="modInfo.discordLink ? {'font-size': '16px'} : {}">The Modding Tree Discord</a><br>
-			<a class="link" href="http://discord.gg/wwQfgPa" target="_blank" v-bind:style="{'font-size': '16px'}">Main
+			<a class="link" href="http://discord.gg" target="_blank" v-bind:style="{'font-size': '16px'}">Main
 				Prestige Tree server</a><br>
 			<br><br>
 		</div>
@@ -85,15 +101,15 @@
 				onclick="showTab('options-tab')"></img>
 			<div id="info" v-if="player.tab!='info-tab'" class="overlayThing" onclick="showTab('info-tab')"><br>i</div>
 			<div id="discord" class="overlayThing">
-				<img onclick="window.open((modInfo.discordLink ? modInfo.discordLink : 'https://discord.gg/F3xveHV'),'mywindow')"
+				<img onclick="window.open((modInfo.discordLink ? modInfo.discordLink : 'https://discord.gg'),'mywindow')"
 					src="discord.png" target="_blank"></img>
 				<ul id="discord-links">
 					<li v-if="modInfo.discordLink"><a class="link" v-bind:href="modInfo.discordLink"
 							target="_blank">{{modInfo.discordName}}</a><br></li>
-					<li><a class="link" href="https://discord.gg/F3xveHV" target="_blank"
+					<li><a class="link" href="https://discord.gg" target="_blank"
 							v-bind:style="modInfo.discordLink ? {'font-size': '16px'} : {}">The Modding Tree
 							Discord</a><br></li>
-					<li><a class="link" href="http://discord.gg/wwQfgPa" target="_blank"
+					<li><a class="link" href="http://discord.gg" target="_blank"
 							v-bind:style="{'font-size': '16px'}">Main Prestige Tree server</a></li>
 				</ul>
 			</div>
@@ -114,7 +130,6 @@
 			<bg :layer="player.navTab == 'none' ? player.tab : player.navTab" ></bg>
 		</div>
 
-		<!-- Popups -->
 		<div class="popup-container">
 			<transition-group name="fade">
 				<div v-for="popup,index in activePopups" class="popup" v-bind:class="popup.type"
@@ -143,3 +158,4 @@
 
 	</div>
 </body>
+</html>
