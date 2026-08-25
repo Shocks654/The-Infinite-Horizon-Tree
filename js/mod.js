@@ -195,11 +195,33 @@ function applySoftcap(val, start, type, mag) {
     }
 }
 
+// ============================================================================
+// THE INFINITE HORIZON TREE - AUTO-BOOT EMERGENCY SYSTEM
+// SYSTEM STATUS: 5-SECOND DELAYED COMPILATION MATRIX
+// ============================================================================
+
+var isVueEngineFullyBooted = false;
+
 function checkGlobalSaveIntegrity() {
-    // SPECIAL VUE EMERGENCY INTERCEPTOR: Strictly outputs human-readable messages in Hungarian!
     try {
         if (typeof Vue === 'undefined') {
             console.error("❌ INTEGRITY WARNING: A Vue.js keretrendszer még nem töltődött be a cdnjs felhőből! A Metamátrix pajzs most kényszerített késleltetést indít el, hogy megvédje a fát a ReferenceError fagyástól!");
+            
+            // Trigger auto-recovery reload logic after exactly 5 seconds
+            setTimeout(function() {
+                try {
+                    if (typeof Vue !== 'undefined' && isVueEngineFullyBooted === false) {
+                        console.log("⚡ EMERGENCY MATRIX: Az 5 másodperces késleltetés lefutott, a Vue sikeresen megérkezett a felhőből! Kényszerített AUTO-BOOT indítása most...");
+                        isVueEngineFullyBooted = true;
+                        if (typeof load === 'function') {
+                            load(); // Re-trigger the game initialization engine safely
+                        }
+                    }
+                } catch(bootErr) {
+                    /* Auto-boot insulation active */
+                }
+            }, 5000);
+            
             return false;
         }
     } catch(vueException) {
@@ -249,7 +271,6 @@ function checkGlobalSaveIntegrity() {
     return true;
 }
 
-
 function runGlobalTelemetryDiagnostic() {
     try {
         let verification = checkGlobalSaveIntegrity();
@@ -260,6 +281,15 @@ function runGlobalTelemetryDiagnostic() {
         /* Bypassed */
     }
 }
+
+try {
+    setInterval(function() {
+        runGlobalTelemetryDiagnostic();
+    }, 5000);
+} catch(e) {
+    console.error("❌ CRITICAL: Nem sikerült elindítani a háttérben pörgő 5 másodperces biztonsági óraművet!");
+}
+
 
 try {
     setInterval(function() {
