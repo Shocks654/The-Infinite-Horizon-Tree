@@ -196,31 +196,44 @@ function applySoftcap(val, start, type, mag) {
 }
 
 // ============================================================================
-// THE INFINITE HORIZON TREE - AUTO-BOOT EMERGENCY SYSTEM
-// SYSTEM STATUS: 5-SECOND DELAYED COMPILATION MATRIX
+// THE INFINITE HORIZON TREE - CYCLIC 5-SECOND AUTO-BOOT SHIELD
+// SYSTEM STATUS: LOOPS UNTIL SUCCESSFUL EXECUTION THEN DESTROYS ITSELF
 // ============================================================================
 
 var isVueEngineFullyBooted = false;
+var autoBootClockTimer = null;
 
 function checkGlobalSaveIntegrity() {
     try {
         if (typeof Vue === 'undefined') {
             console.error("❌ INTEGRITY WARNING: A Vue.js keretrendszer még nem töltődött be a cdnjs felhőből! A Metamátrix pajzs most kényszerített késleltetést indít el, hogy megvédje a fát a ReferenceError fagyástól!");
             
-            // Trigger auto-recovery reload logic after exactly 5 seconds
-            setTimeout(function() {
-                try {
-                    if (typeof Vue !== 'undefined' && isVueEngineFullyBooted === false) {
-                        console.log("⚡ EMERGENCY MATRIX: Az 5 másodperces késleltetés lefutott, a Vue sikeresen megérkezett a felhőből! Kényszerített AUTO-BOOT indítása most...");
-                        isVueEngineFullyBooted = true;
-                        if (typeof load === 'function') {
-                            load(); // Re-trigger the game initialization engine safely
+            // Start looping every 5 seconds if not already running
+            if (autoBootClockTimer === null) {
+                autoBootClockTimer = setInterval(function() {
+                    try {
+                        if (typeof Vue !== 'undefined') {
+                            if (isVueEngineFullyBooted === false) {
+                                console.log("⚡ EMERGENCY BREAKTHROUGH: A Vue sikeresen letöltődött a felhőből! Kényszerített AUTO-BOOT indítása most...");
+                                isVueEngineFullyBooted = true;
+                                
+                                if (typeof load === 'function') {
+                                    load(); // Safely wake up the prestige tree engine
+                                }
+                                
+                                // ABSOLUTE KILL SWITCH: Instantly stops looping forever once successful!
+                                clearInterval(autoBootClockTimer);
+                                autoBootClockTimer = "STOPPED";
+                                console.log("🛑 SHIELD DISENGAGED: Az indítás sikeres volt, a mentőrakéta leállította magát!");
+                            }
+                        } else {
+                            console.warn("⚠️ AUTO-BOOT RE-TRY: A Vue még mindig hiányzik, újabb próba 5 másodperc múlva...");
                         }
+                    } catch(loopErr) {
+                        /* Auto-boot insulation safe */
                     }
-                } catch(bootErr) {
-                    /* Auto-boot insulation active */
-                }
-            }, 5000);
+                }, 5000);
+            }
             
             return false;
         }
@@ -275,7 +288,7 @@ function runGlobalTelemetryDiagnostic() {
     try {
         let verification = checkGlobalSaveIntegrity();
         if (verification === true) {
-            console.log("🟢 THE INFINITE HORIZON TREE: Az 1K-s megerősített betonpajzs mátrix sikeresen lefutott. Minden mentési slot tiszta és védett a NaN hiba ellen!");
+            console.log("🟢 THE INFINITE HORIZON TREE: Az 1K-s megerősített betonpajzs matrix sikeresen lefutott. Minden mentési slot tiszta és védett a NaN hiba ellen!");
         }
     } catch(e) {
         /* Bypassed */
