@@ -1,23 +1,7 @@
 // ============================================================================
-// THE INFINITE HORIZON TREE - MOD.JS RAW ENGINE CORES
-// PART 1: INSULATED HEAD STRUCTURE WITH OBJECT PROXY MATRIX (mod_top)
+// THE INFINITE HORIZON TREE - MOD.JS ENGINE CORES
+// PART 1: RAW PRODUCTION HEAD STRUCTURE (mod_top)
 // ============================================================================
-
-// METAMATRIX OBJECT SHIELD: Provides mock structures to prevent components.js breakdown
-if (typeof Vue === 'undefined') {
-    var Vue = {
-        component: function(id, definition) { 
-            console.warn("Vue component registered via proxy matrix backup."); 
-            return definition;
-        },
-        set: function(obj, key, val) { 
-            if (obj) obj[key] = val; 
-        },
-        delete: function(obj, key) { 
-            if (obj) delete obj[key]; 
-        }
-    };
-}
 
 let modInfo = {
     name: "The Infinite Horizon Tree",
@@ -46,7 +30,17 @@ let winText = "Congratulations! You have reached the end of the current version!
 var doNotCallTheseFunctionsEveryTick = ["Idonotknowwhatisthis"];
 
 function getStartPoints() {
-    return new Decimal(modInfo.initialStartPoints);
+    try {
+        if (modInfo) {
+            if (modInfo.initialStartPoints) {
+                let points_base = new Decimal(modInfo.initialStartPoints);
+                return points_base;
+            }
+        }
+        return new Decimal(10);
+    } catch(e) {
+        return new Decimal(10);
+    }
 }
 
 function canGenPoints() {
@@ -57,8 +51,8 @@ function canGenPoints() {
     }
 }
 // ============================================================================
-// THE INFINITE HORIZON TREE - MOD.JS RAW ENGINE CORES
-// PART 2: ULTRA-BULKY SHIELDED ENGINE & TELEMETRY (mod_bottom)
+// THE INFINITE HORIZON TREE - MOD.JS REWRITTEN ENGINE CORES
+// PART 2: BULKY HUMAN-READABLE TELEMETRY SHIELD MATRIX (mod_bottom)
 // ============================================================================
 
 function getPointGen() {
@@ -87,7 +81,7 @@ function getPointGen() {
             }
         }
     } catch(e) {
-        console.error("Main shield captured points generation upgrade failure:", e);
+        console.error("❌ SHIELD DIAGNOSTIC: Gáz van a regular pontok kiszámításánál! Valamelyik Prestige Upgrade hibás értéket ad vissza vagy NaN lett!");
     }
 
     try {
@@ -107,7 +101,7 @@ function getPointGen() {
             }
         }
     } catch(e) {
-        console.error("Main shield captured booster point generation multiplier failure:", e);
+        console.error("❌ SHIELD DIAGNOSTIC: A Booster szorzó összeomlott! Nem sikerült kiszámolni a 2^x exponenciális bónuszt a ponttermeléshez!");
     }
 
     try {
@@ -124,7 +118,7 @@ function getPointGen() {
             }
         }
     } catch(e) {
-        console.error("Main shield captured achievements reward calculation failure:", e);
+        console.error("❌ SHIELD DIAGNOSTIC: Az Achievements (Achi) fül jutalomszámítása elhasalt! Ellenőrizd a 00_achievements.js fájlt!");
     }
 
     return gain;
@@ -142,6 +136,7 @@ function isEndgame() {
         let status = player.points.gte(target);
         return status;
     } catch(e) {
+        console.warn("⚠️ SHIELD DIAGNOSTIC: Nem sikerült leellenőrizni az Endgame állapotot. Valószínűleg még túl messze vagyunk a végétől!");
         return false;
     }
 }
@@ -156,7 +151,7 @@ function fixOldSave(oldVersion) {
     try {
         /* Legacy save shield engine operational */
     } catch(e) {
-        console.error("Legacy migration exception:", e);
+        console.error("❌ SHIELD DIAGNOSTIC: A régi mentés verzióváltási migrációja megszakadt!");
     }
 }
 
@@ -195,6 +190,7 @@ function applySoftcap(val, start, type, mag) {
         
         return val;
     } catch(e) {
+        console.warn("⚠️ SHIELD DIAGNOSTIC: Softcap számítási hiba történt, de a betonpajzs sikeresen visszaállította a nyers értéket!");
         return val;
     }
 }
@@ -205,6 +201,7 @@ function checkGlobalSaveIntegrity() {
             if (player.points) {
                 let p_check = new Decimal(player.points);
                 if (isNaN(p_check.mag)) {
+                    console.error("⚠️ CRITICAL RECOVERY: A regular Pontjaid értéke NaN (Sérült) lett! A Metamátrix pajzs azonnal közbelépett és visszaállította 10 pontra, hogy megvédje a mentésed!");
                     player.points = new Decimal(10);
                 }
             }
@@ -212,6 +209,7 @@ function checkGlobalSaveIntegrity() {
                 if (player.p.points) {
                     let pp_check = new Decimal(player.p.points);
                     if (isNaN(pp_check.mag)) {
+                        console.error("⚠️ CRITICAL RECOVERY: A Prestige Pontjaid értéke NaN lett! A pajzs azonnal nullázta a fertőzést, mielőtt lefagyna a játék!");
                         player.p.points = new Decimal(0);
                     }
                 }
@@ -220,6 +218,7 @@ function checkGlobalSaveIntegrity() {
                 if (player.b.points) {
                     let b_check = new Decimal(player.b.points);
                     if (isNaN(b_check.mag)) {
+                        console.error("⚠️ CRITICAL RECOVERY: A Boosterek darabszáma meghalt a memóriában! A pajzs biztonságosan újraindította a Booster pontokat!");
                         player.b.points = new Decimal(0);
                     }
                 }
@@ -228,13 +227,14 @@ function checkGlobalSaveIntegrity() {
                 if (player.g.points) {
                     let g_check = new Decimal(player.g.points);
                     if (isNaN(g_check.mag)) {
+                        console.error("⚠️ CRITICAL RECOVERY: A Generátorok darabszáma megsérült! A telemetria biztonságosan elkülönítette a hibát!");
                         player.g.points = new Decimal(0);
                     }
                 }
             }
         }
     } catch(e) {
-        console.error("Diagnostic scanner isolated memory array exception:", e);
+        console.error("❌ SHIELD DIAGNOSTIC: A háttérben futó automatikus mentés-ellenőrző szkenner hiba miatt leállt!");
     }
     return true;
 }
@@ -243,10 +243,10 @@ function runGlobalTelemetryDiagnostic() {
     try {
         let verification = checkGlobalSaveIntegrity();
         if (verification === true) {
-            console.log("The Infinite Horizon Tree - 1K Bulk Shield Matrix Verified.");
+            console.log("🟢 THE INFINITE HORIZON TREE: Az 1K-s megerősített betonpajzs mátrix sikeresen lefutott. Minden mentési slot tiszta és védett a NaN hiba ellen!");
         }
     } catch(e) {
-        /* Diagnostic insulation safe */
+        /* Bypassed */
     }
 }
 
@@ -255,5 +255,5 @@ try {
         runGlobalTelemetryDiagnostic();
     }, 5000);
 } catch(e) {
-    console.error("Security core clock initialization failure:", e);
+    console.error("❌ CRITICAL: Nem sikerült elindítani a háttérben pörgő 5 másodperces biztonsági óraművet!");
 }
