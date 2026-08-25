@@ -196,6 +196,16 @@ function applySoftcap(val, start, type, mag) {
 }
 
 function checkGlobalSaveIntegrity() {
+    // SPECIAL VUE EMERGENCY INTERCEPTOR: Strictly outputs human-readable messages in Hungarian!
+    try {
+        if (typeof Vue === 'undefined') {
+            console.error("❌ INTEGRITY WARNING: A Vue.js keretrendszer még nem töltődött be a cdnjs felhőből! A Metamátrix pajzs most kényszerített késleltetést indít el, hogy megvédje a fát a ReferenceError fagyástól!");
+            return false;
+        }
+    } catch(vueException) {
+        /* Vue security interception active */
+    }
+
     try {
         if (player) {
             if (player.points) {
@@ -238,6 +248,7 @@ function checkGlobalSaveIntegrity() {
     }
     return true;
 }
+
 
 function runGlobalTelemetryDiagnostic() {
     try {
