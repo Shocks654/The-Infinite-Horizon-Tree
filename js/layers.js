@@ -518,9 +518,31 @@ addLayer("g", {
         }
     },
     
+        // JEEHAN STATIC COST: Strictly starts at 200 points for the first purchase!
     cost(x) {
-        return new Decimal(0);
+        try {
+            let amt = new Decimal(x !== undefined ? x : player.g.points);
+            if (isNaN(amt.mag)) {
+                amt = new Decimal(0);
+            }
+            
+            // Baseline dynamic calculation: 5^(amt^1.25) * 200
+            let formula = Decimal.pow(5, amt.pow(1.25)).times(200);
+            
+            // Lock logic if the alternative layer was unlocked first
+            if (player.b) {
+                if (player.b.unlocked === true) {
+                    if (player.g.unlocked === false) {
+                        return new Decimal("1e300"); 
+                    }
+                }
+            }
+            return formula;
+        } catch(e) { 
+            return new Decimal(200); 
+        }
     },
+
     
     resource: "generators",
     baseResource: "points", 
