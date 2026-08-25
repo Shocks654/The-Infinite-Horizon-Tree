@@ -47,3 +47,22 @@ h1, h2, h3, b, input {
 	color: var(--points);
 	text-shadow: 0 0 10px var(--points);
 }
+
+/* ============================================================================
+   THE INFINITE HORIZON TREE - GLOBAL CANVAS BRANCH REINFORCEMENT
+   SYSTEM STATUS: FORCES ALL CONNECTOR LINES TO BLACING PURE WHITE
+   ============================================================================ */
+
+/* Forces the underlying SVG and Canvas tree branches to be visible over black */
+canvas, svg, line, path {
+	stroke: #ffffff !important;
+	stroke-width: 4px !important;
+	color: #ffffff !important;
+	opacity: 1.0 !important;
+}
+
+#treeCanvas {
+	stroke: #ffffff !important;
+	stroke-width: 4px !important;
+	opacity: 1.0 !important;
+}
