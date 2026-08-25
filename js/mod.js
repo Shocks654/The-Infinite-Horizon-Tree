@@ -1,118 +1,34 @@
 // ============================================================================
-// THE INFINITE HORIZON TREE - MOD.JS LAYER CORES
-// PART 1: ULTRA-BULKY SHIELDED HEAD ENGINE (mod_top)
+// THE INFINITE HORIZON TREE - MOD.JS REWRITTEN ENGINE CORES
+// PART 1: RAW INSULATED HEAD STRUCTURE (mod_top)
 // ============================================================================
 
-var modInfo = {};
-var VERSION = {};
-var changelog = "";
-var winText = "";
-var doNotCallTheseFunctionsEveryTick = [];
+let modInfo = {
+    name: "The Infinite Horizon Tree",
+    id: "infinitehorizontree",
+    author: "Shocks654",
+    pointsName: "points",
+    modFiles: [
+        "tree.js",
+        "00_achievements.js",
+        "layers.js"
+    ],
+    discordName: "",
+    discordLink: "",
+    initialStartPoints: new Decimal(10),
+    initialLayers: ["p"],
+    offlineLimit: 1000,
+};
 
-// DIRECT INJECTION OF THE GIGANTIC MAIN DEFENSE BUBBLE
-try {
-    
-    try {
-        modInfo.name = "The Infinite Horizon Tree";
-    } catch(e) {
-        console.error("Shielded modInfo name initialization:", e);
-    }
+let VERSION = {
+    num: "0.9",
+    name: "Prototype"
+};
 
-    try {
-        modInfo.id = "infinitehorizontree";
-    } catch(e) {
-        console.error("Shielded modInfo id initialization:", e);
-    }
+let changelog = "<h1>Changelog:</h1><br><h3>v0.9</h3><br>- Adding a LOT of layers.<br>";
+let winText = "Congratulations! You have reached the end of the current version!";
+var doNotCallTheseFunctionsEveryTick = ["Idonotknowwhatisthis"];
 
-    try {
-        modInfo.author = "Shocks654";
-    } catch(e) {
-        console.error("Shielded modInfo author initialization:", e);
-    }
-
-    try {
-        modInfo.pointsName = "points";
-    } catch(e) {
-        console.error("Shielded modInfo pointsName initialization:", e);
-    }
-
-    try {
-        modInfo.modFiles = [
-            "tree.js",
-            "00_achievements.js",
-            "layers.js"
-        ];
-    } catch(e) {
-        console.error("Shielded modFiles loading tracking array:", e);
-    }
-
-    try {
-        modInfo.discordName = "";
-    } catch(e) {
-        console.error("Shielded discord tracking:", e);
-    }
-
-    try {
-        modInfo.discordLink = "";
-    } catch(e) {
-        console.error("Shielded link tracking:", e);
-    }
-
-    try {
-        modInfo.initialStartPoints = new Decimal(10);
-    } catch(e) {
-        console.error("Shielded initial start points configuration:", e);
-    }
-
-    try {
-        modInfo.initialLayers = ["p"];
-    } catch(e) {
-        console.error("Shielded initial layers execution check:", e);
-    }
-
-    try {
-        modInfo.offlineLimit = 1000;
-    } catch(e) {
-        console.error("Shielded offline time calculations tracker:", e);
-    }
-
-} catch(mainGlobalException) {
-    console.error("CRITICAL EXCEPTION AVERTED BY METAMATRIX MAIN SHIELD:", mainGlobalException);
-}
-
-// VERSION CONTROL COMPONENT BULK INSULATION
-try {
-    VERSION.num = "0.9";
-} catch(e) {
-    console.error("Shielded version allocation:", e);
-}
-
-try {
-    VERSION.name = "Prototype";
-} catch(e) {
-    console.error("Shielded name version allocation:", e);
-}
-
-// CHANGELOG CONTROL COMPONENT BULK INSULATION
-try {
-    changelog = "<h1>Changelog:</h1><br><h3>v0.9</h3><br>- Adding a LOT of layers.<br>";
-} catch(e) {
-    console.error("Shielded changelog text structure strings:", e);
-}
-
-try {
-    winText = "Congratulations! You have reached the end of the current version!";
-} catch(e) {
-    console.error("Shielded victory conditional text structure:", e);
-}
-
-try {
-    doNotCallTheseFunctionsEveryTick = ["Idonotknowwhatisthis"];
-} catch(e) {
-    console.error("Shielded optimization array sequence configuration:", e);
-}
-
-// FUNCTIONAL ROUTING ARMOR MATRIX
 function getStartPoints() {
     try {
         if (modInfo) {
@@ -123,6 +39,7 @@ function getStartPoints() {
         }
         return new Decimal(10);
     } catch(e) {
+        console.error("Shielded fallback start points initialized:", e);
         return new Decimal(10);
     }
 }
@@ -135,7 +52,7 @@ function canGenPoints() {
     }
 }
 // ============================================================================
-// THE INFINITE HORIZON TREE - MOD.JS LAYER CORES
+// THE INFINITE HORIZON TREE - MOD.JS REWRITTEN ENGINE CORES
 // PART 2: ULTRA-BULKY SHIELDED ENGINE & TELEMETRY (mod_bottom)
 // ============================================================================
 
