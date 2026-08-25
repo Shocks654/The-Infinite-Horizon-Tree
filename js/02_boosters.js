@@ -39,7 +39,7 @@ addLayer("b", {
         }
     },
     
-        // JEEHAN STATIC COST: Strictly starts at 200 points for the first purchase!
+       // CLEAN COOP COST IMPLEMENTATION: 200^(amount + 1)^1.3826827
     cost(x) {
         try {
             let amt = new Decimal(x !== undefined ? x : player.b.points);
@@ -47,10 +47,13 @@ addLayer("b", {
                 amt = new Decimal(0);
             }
             
-            // Baseline dynamic calculation: 5^(amt^1.25) * 200
-            let formula = Decimal.pow(5, amt.pow(1.25)).times(200);
+            // Unwrapped clean mathematical scaling sequence
+            let amountNumber = amt.toNumber();
+            let baseShift = amountNumber + 1;
+            let exponentPower = Math.pow(baseShift, 1.3826827);
+            let formula = Decimal.pow(200, exponentPower);
             
-            // Lock logic if the alternative layer was unlocked first
+            // Hard execution barrier if alternative layer is chosen first
             if (player.g) {
                 if (player.g.unlocked === true) {
                     if (player.b.unlocked === false) {
