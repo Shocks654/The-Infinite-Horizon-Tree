@@ -339,7 +339,7 @@ addLayer("p", {
 
 // ============================================================================
 // THE INFINITE HORIZON TREE - ANTI-CRASH TITANIC SHIELD (v0.9)
-// FILE: js/02_boosters.js - INFLATION REMOVED (bk1)
+// FILE: js/02_boosters.js - GENUINE PT:R MATH UPGRADES
 // ============================================================================
 
 addLayer("b", {
@@ -378,7 +378,6 @@ addLayer("b", {
         }
     },
     
-    // INSTANT FREE COST SYSTEM: Always costs 0 points to purchase!
     cost(x) {
         return new Decimal(0);
     },
@@ -408,11 +407,10 @@ addLayer("b", {
         ["p", {"stroke": "#ffffff", "stroke-width": 4}]
     ], 
     
-    // EXPERT DYNAMIC VISIBILITY: Disappears completely if Generator reset occurs!
     layerShown() { 
         try {
             if (player.g && player.g.unlocked === true && player.b.unlocked === false) {
-                return false; // Vanishes completely instead of turning grey!
+                return false; 
             }
             if (player.p && player.p.total && player.p.total.gt(0)) {
                 return true;
@@ -441,16 +439,46 @@ addLayer("b", {
     },
     
     upgrades: {
-        11: { title: "BP Combo", description: "Best Boosters boost Prestige Point gain.", cost: new Decimal(3), effect() { try { return player.b.points.sqrt().add(1); } catch(e) { return new Decimal(1); } } },
-        12: { title: "Cross-Contamination", description: "Generators add to the Booster base.", cost: new Decimal(7), unlocked() { try { return player.b.unlocked || (player.g && player.g.unlocked); } catch(e) { return false; } }, effect() { try { let x = player.g ? player.g.points : new Decimal(0); return x.add(1).log10().add(1).sqrt().div(3); } catch(e) { return new Decimal(1); } } },
-        13: { title: "PB Reversal", description: "Total Prestige Points add to the Booster effect base.", cost: new Decimal(8), unlocked() { try { return player.b.points.gte(7); } catch(e) { return false; } }, effect() { try { return player.p.points.add(1).log10().add(1).log10().div(3); } catch(e) { return new Decimal(1); } } },
+        11: { 
+            title: "BP Combo", 
+            description: "Best Boosters boost Prestige Point gain.", 
+            cost: new Decimal(3), 
+            effect() { 
+                try { return player.b.points.sqrt().add(1); } catch(e) { return new Decimal(1); } 
+            } 
+        },
+        12: { 
+            title: "Cross-Contamination", 
+            description: "Generators add to the Booster base.", 
+            cost: new Decimal(7), 
+            unlocked() { try { return player.b.unlocked || (player.g && player.g.unlocked); } catch(e) { return false; } }, 
+            // PT:R FORMULA INJECTION
+            currently() {
+                try {
+                    let x = player.g ? player.g.points : new Decimal(0);
+                    return new Decimal(x).times(0.5); 
+                } catch(e) { return new Decimal(0); }
+            }
+        },
+        13: { 
+            title: "PB Reversal", 
+            description: "Total Prestige Points add to the Booster effect base.", 
+            cost: new Decimal(8), 
+            unlocked() { try { return player.b.points.gte(7); } catch(e) { return false; } }, 
+            // PT:R FORMULA INJECTION
+            currently() {
+                try {
+                    let log1 = player.p.points.add(1).log10();
+                    return log1.div(2);
+                } catch(e) { return new Decimal(0); }
+            }
+        },
     },
 });
 
-
 // ============================================================================
 // THE INFINITE HORIZON TREE - ANTI-CRASH TITANIC SHIELD (v0.9)
-// FILE: js/03_generators.js - INFLATION REMOVED (gk1)
+// FILE: js/03_generators.js - GENUINE PT:R MATH UPGRADES
 // ============================================================================
 
 addLayer("g", {
@@ -490,7 +518,6 @@ addLayer("g", {
         }
     },
     
-    // INSTANT FREE COST SYSTEM: Always costs 0 points to purchase!
     cost(x) {
         return new Decimal(0);
     },
@@ -520,11 +547,10 @@ addLayer("g", {
         ["p", {"stroke": "#ffffff", "stroke-width": 4}]
     ], 
     
-    // EXPERT DYNAMIC VISIBILITY: Disappears completely if Booster reset occurs!
     layerShown() { 
         try {
             if (player.b && player.b.unlocked === true && player.g.unlocked === false) {
-                return false; // Vanishes completely instead of turning grey!
+                return false; 
             }
             if (player.p && player.p.total && player.p.total.gt(0)) {
                 return true;
@@ -536,6 +562,33 @@ addLayer("g", {
     },
     
     canBuyMax() { return false; },
+    
+    // PT:R POWER EFFECT EXPONENT COMPUTATION
+    getGenPowerEffExp() {
+        let exp = new Decimal(1/3);
+        try {
+            if (player.b && player.b.upgrades) {
+                if (player.b.upgrades.includes(21)) {
+                    exp = exp.times(2);
+                }
+                if (player.b.upgrades.includes(22)) {
+                    exp = exp.times(1.2);
+                }
+            }
+        } catch(e) { /* Protection engine */ }
+        return exp;
+    },
+
+    // PT:R POWER EFFECT COMPUTATION
+    getGenPowerEff() {
+        try {
+            let exponent = this.getGenPowerEffExp();
+            let eff = player.g.power.add(1).pow(exponent);
+            return eff;
+        } catch(e) {
+            return new Decimal(1);
+        }
+    },
     
     update(diff) {
         try {
@@ -564,8 +617,32 @@ addLayer("g", {
     },
     
     upgrades: {
-        11: { title: "GP Combo", description: "Best Generators boost Prestige Point gain.", cost: new Decimal(3) },
-        12: { title: "I Need More!", description: "Boosters add to the Generator base.", cost: new Decimal(7) },
-        13: { title: "I Need More II", description: "Best Prestige Points add to the Generator base.", cost: new Decimal(8) },
+        11: { 
+            title: "GP Combo", 
+            description: "Best Generators boost Prestige Point gain.", 
+            cost: new Decimal(3) 
+        },
+        12: { 
+            title: "I Need More!", 
+            description: "Boosters add to the Generator base.", 
+            cost: new Decimal(7),
+            currently() {
+                try {
+                    let x = player.b ? player.b.points : new Decimal(0);
+                    return new Decimal(x).times(0.5);
+                } catch(e) { return new Decimal(0); }
+            }
+        },
+        13: { 
+            title: "I Need More II", 
+            description: "Best Prestige Points add to the Generator base.", 
+            cost: new Decimal(8),
+            currently() {
+                try {
+                    let log1 = player.p.points.add(1).log10();
+                    return log1.div(2);
+                } catch(e) { return new Decimal(0); }
+            }
+        },
     },
 });
