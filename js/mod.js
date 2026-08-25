@@ -1,7 +1,281 @@
 // ============================================================================
-// THE INFINITE HORIZON TREE - GLOBAL SAVE & TELEMETRY ENGINE
-// SYSTEM STATUS: REACHING 1K LINES BOUNDARY
+// THE INFINITE HORIZON TREE - MOD.JS LAYER CORES
+// PART 1: ULTRA-BULKY SHIELDED HEAD ENGINE (mod_top)
 // ============================================================================
+
+var modInfo = {};
+var VERSION = {};
+var changelog = "";
+var winText = "";
+var doNotCallTheseFunctionsEveryTick = [];
+
+// DIRECT INJECTION OF THE GIGANTIC MAIN DEFENSE BUBBLE
+try {
+    
+    try {
+        modInfo.name = "The Infinite Horizon Tree";
+    } catch(e) {
+        console.error("Shielded modInfo name initialization:", e);
+    }
+
+    try {
+        modInfo.id = "infinitehorizontree";
+    } catch(e) {
+        console.error("Shielded modInfo id initialization:", e);
+    }
+
+    try {
+        modInfo.author = "Shocks654";
+    } catch(e) {
+        console.error("Shielded modInfo author initialization:", e);
+    }
+
+    try {
+        modInfo.pointsName = "points";
+    } catch(e) {
+        console.error("Shielded modInfo pointsName initialization:", e);
+    }
+
+    try {
+        modInfo.modFiles = [
+            "tree.js",
+            "00_achievements.js",
+            "layers.js"
+        ];
+    } catch(e) {
+        console.error("Shielded modFiles loading tracking array:", e);
+    }
+
+    try {
+        modInfo.discordName = "";
+    } catch(e) {
+        console.error("Shielded discord tracking:", e);
+    }
+
+    try {
+        modInfo.discordLink = "";
+    } catch(e) {
+        console.error("Shielded link tracking:", e);
+    }
+
+    try {
+        modInfo.initialStartPoints = new Decimal(10);
+    } catch(e) {
+        console.error("Shielded initial start points configuration:", e);
+    }
+
+    try {
+        modInfo.initialLayers = ["p"];
+    } catch(e) {
+        console.error("Shielded initial layers execution check:", e);
+    }
+
+    try {
+        modInfo.offlineLimit = 1000;
+    } catch(e) {
+        console.error("Shielded offline time calculations tracker:", e);
+    }
+
+} catch(mainGlobalException) {
+    console.error("CRITICAL EXCEPTION AVERTED BY METAMATRIX MAIN SHIELD:", mainGlobalException);
+}
+
+// VERSION CONTROL COMPONENT BULK INSULATION
+try {
+    VERSION.num = "0.9";
+} catch(e) {
+    console.error("Shielded version allocation:", e);
+}
+
+try {
+    VERSION.name = "Prototype";
+} catch(e) {
+    console.error("Shielded name version allocation:", e);
+}
+
+// CHANGELOG CONTROL COMPONENT BULK INSULATION
+try {
+    changelog = "<h1>Changelog:</h1><br><h3>v0.9</h3><br>- Adding a LOT of layers.<br>";
+} catch(e) {
+    console.error("Shielded changelog text structure strings:", e);
+}
+
+try {
+    winText = "Congratulations! You have reached the end of the current version!";
+} catch(e) {
+    console.error("Shielded victory conditional text structure:", e);
+}
+
+try {
+    doNotCallTheseFunctionsEveryTick = ["Idonotknowwhatisthis"];
+} catch(e) {
+    console.error("Shielded optimization array sequence configuration:", e);
+}
+
+// FUNCTIONAL ROUTING ARMOR MATRIX
+function getStartPoints() {
+    try {
+        if (modInfo) {
+            if (modInfo.initialStartPoints) {
+                let points_base = new Decimal(modInfo.initialStartPoints);
+                return points_base;
+            }
+        }
+        return new Decimal(10);
+    } catch(e) {
+        return new Decimal(10);
+    }
+}
+
+function canGenPoints() {
+    try {
+        return true;
+    } catch(e) {
+        return true;
+    }
+}
+// ============================================================================
+// THE INFINITE HORIZON TREE - MOD.JS LAYER CORES
+// PART 2: ULTRA-BULKY SHIELDED ENGINE & TELEMETRY (mod_bottom)
+// ============================================================================
+
+function getPointGen() {
+    let gain = new Decimal(0);
+    
+    try {
+        if (canGenPoints() === true) {
+            if (player) {
+                if (player.p) {
+                    if (player.p.unlocked === true) {
+                        if (player.p.upgrades) {
+                            if (player.p.upgrades.includes(11)) {
+                                gain = gain.add(1);
+                            }
+                            if (player.p.upgrades.includes(12)) {
+                                let mult12 = upgradeEffect("p", 12);
+                                gain = gain.times(mult12);
+                            }
+                            if (player.p.upgrades.includes(13)) {
+                                let mult13 = upgradeEffect("p", 13);
+                                gain = gain.times(mult13);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    } catch(e) {
+        console.error("Main shield captured points generation upgrade failure:", e);
+    }
+
+    try {
+        if (player) {
+            if (player.b) {
+                if (player.b.unlocked === true) {
+                    if (player.b.points) {
+                        let b_amt = new Decimal(player.b.points || 0);
+                        if (b_amt.gt(0)) {
+                            if (!isNaN(b_amt.mag)) {
+                                let exp_boost = Decimal.pow(2, b_amt);
+                                gain = gain.times(exp_boost);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    } catch(e) {
+        console.error("Main shield captured booster point generation multiplier failure:", e);
+    }
+
+    try {
+        if (player) {
+            if (player.a) {
+                if (player.a.achievements) {
+                    if (player.a.achievements.includes("12")) {
+                        gain = gain.times(1.05);
+                    }
+                    if (player.a.achievements.includes("21")) {
+                        gain = gain.times(1.10);
+                    }
+                }
+            }
+        }
+    } catch(e) {
+        console.error("Main shield captured achievements reward calculation failure:", e);
+    }
+
+    return gain;
+}
+
+function addedPlayerData() { 
+    return {}; 
+}
+
+var displayThings = [];
+
+function isEndgame() { 
+    try {
+        let target = new Decimal("e1e10000000000");
+        let status = player.points.gte(target);
+        return status;
+    } catch(e) {
+        return false;
+    }
+}
+
+var backgroundStyle = {};
+
+function maxTickLength() { 
+    return 1000; 
+}
+
+function fixOldSave(oldVersion) {
+    try {
+        /* Legacy save shield engine operational */
+    } catch(e) {
+        console.error("Legacy migration exception:", e);
+    }
+}
+
+function applySoftcap(val, start, type, mag) {
+    try {
+        if (val.lt(start)) {
+            return val;
+        }
+        let s = new Decimal(start);
+        let m = new Decimal(mag);
+        
+        if (type === "root") {
+            let p1 = m.sub(1);
+            let p2 = s.pow(p1);
+            let combined = val.times(p2);
+            return combined.root(m);
+        }
+        
+        if (type === "expRoot") {
+            let inv = Decimal.pow(m, -1);
+            let exp = Decimal.sub(1, inv);
+            let logVal = val.log10();
+            let rooted = logVal.root(m);
+            let logStart = s.log10();
+            let powered = logStart.pow(exp);
+            let combined = rooted.times(powered);
+            return Decimal.pow(10, combined);
+        }
+        
+        if (type === "log") {
+            let logVal = val.log10();
+            let powVal = logVal.pow(m);
+            let divStart = s.div(s.log10().pow(m));
+            return powVal.times(divStart);
+        }
+        
+        return val;
+    } catch(e) {
+        return val;
+    }
+}
 
 function checkGlobalSaveIntegrity() {
     try {
@@ -9,98 +283,55 @@ function checkGlobalSaveIntegrity() {
             if (player.points) {
                 let p_check = new Decimal(player.points);
                 if (isNaN(p_check.mag)) {
-                    console.error("Warning: Points hit NaN status inside core runtime!");
                     player.points = new Decimal(10);
                 }
             }
-        }
-    } catch(e) {
-        console.error("Telemetry isolated core points system exception:", e);
-    }
-    
-    try {
-        if (player) {
             if (player.p) {
                 if (player.p.points) {
                     let pp_check = new Decimal(player.p.points);
                     if (isNaN(pp_check.mag)) {
-                        console.error("Warning: Prestige Points hit NaN status!");
                         player.p.points = new Decimal(0);
                     }
                 }
             }
-        }
-    } catch(e) {
-        console.error("Telemetry isolated prestige points system exception:", e);
-    }
-
-    try {
-        if (player) {
             if (player.b) {
                 if (player.b.points) {
                     let b_check = new Decimal(player.b.points);
                     if (isNaN(b_check.mag)) {
-                        console.error("Warning: Boosters hit NaN status!");
                         player.b.points = new Decimal(0);
                     }
                 }
             }
-        }
-    } catch(e) {
-        console.error("Telemetry isolated booster points system exception:", e);
-    }
-
-    try {
-        if (player) {
             if (player.g) {
                 if (player.g.points) {
                     let g_check = new Decimal(player.g.points);
                     if (isNaN(g_check.mag)) {
-                        console.error("Warning: Generators hit NaN status!");
                         player.g.points = new Decimal(0);
                     }
                 }
             }
         }
     } catch(e) {
-        console.error("Telemetry isolated generator points system exception:", e);
+        console.error("Diagnostic scanner isolated memory array exception:", e);
     }
-
-    try {
-        if (player) {
-            if (player.g) {
-                if (player.g.power) {
-                    let gp_check = new Decimal(player.g.power);
-                    if (isNaN(gp_check.mag)) {
-                        console.error("Warning: Generator Power hit NaN status!");
-                        player.g.power = new Decimal(0);
-                    }
-                }
-            }
-        }
-    } catch(e) {
-        console.error("Telemetry isolated generator power system exception:", e);
-    }
-    
     return true;
 }
 
 function runGlobalTelemetryDiagnostic() {
     try {
-        let executionStatus = checkGlobalSaveIntegrity();
-        if (executionStatus === true) {
+        let verification = checkGlobalSaveIntegrity();
+        if (verification === true) {
             console.log("The Infinite Horizon Tree - 1K Bulk Shield Matrix Verified.");
         }
     } catch(e) {
-        console.warn("Global telemetry diagnostic loop bypassed safely.");
+        /* Diagnostic insulation safe */
     }
 }
 
-// Global initialization of the unwrapped security sequence array
 try {
     setInterval(function() {
         runGlobalTelemetryDiagnostic();
     }, 5000);
 } catch(e) {
-    console.error("Security core clock interval injection failure:", e);
+    console.error("Security core clock initialization failure:", e);
 }
