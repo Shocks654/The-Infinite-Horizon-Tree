@@ -39,7 +39,7 @@ addLayer("b", {
         }
     },
     
-       // CLEAN COOP COST IMPLEMENTATION: 200^(amount + 1)^1.3826827
+           // ASYMMETRIC CROSS-INFLATION SYSTEM: Starts strictly at 200 points
     cost(x) {
         try {
             let amt = new Decimal(x !== undefined ? x : player.b.points);
@@ -47,25 +47,27 @@ addLayer("b", {
                 amt = new Decimal(0);
             }
             
-            // Unwrapped clean mathematical scaling sequence
-            let amountNumber = amt.toNumber();
-            let baseShift = amountNumber + 1;
-            let exponentPower = Math.pow(baseShift, 1.3826827);
-            let formula = Decimal.pow(200, exponentPower);
+            // Baseline exponential cost scaling
+            let formula = Decimal.pow(5, amt.pow(1.25)).times(200);
             
-            // Hard execution barrier if alternative layer is chosen first
-            if (player.g) {
-                if (player.g.unlocked === true) {
-                    if (player.b.unlocked === false) {
-                        return new Decimal("1e300"); 
-                    }
+            // Cross-inflation modifier: Alternative layer inflation multiplier
+            if (player.g && player.g.points) {
+                let g_amt = new Decimal(player.g.points);
+                if (g_amt.gt(0)) {
+                    formula = formula.times(Decimal.pow(25, g_amt.pow(1.1)));
                 }
+            }
+            
+            // Hard hide-lock barrier rules
+            if (player.g && player.g.unlocked === true && player.b.unlocked === false) {
+                return new Decimal("1e300");
             }
             return formula;
         } catch(e) { 
             return new Decimal(200); 
         }
     },
+
 
 
     
