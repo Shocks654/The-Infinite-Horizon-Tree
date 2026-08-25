@@ -339,7 +339,7 @@ addLayer("p", {
 
 // ============================================================================
 // THE INFINITE HORIZON TREE - ANTI-CRASH TITANIC SHIELD (v0.9)
-// FILE: js/02_boosters.js - PART 1 (bk1)
+// FILE: js/02_boosters.js - INFLATION REMOVED (bk1)
 // ============================================================================
 
 addLayer("b", {
@@ -378,37 +378,9 @@ addLayer("b", {
         }
     },
     
+    // INSTANT FREE COST SYSTEM: Always costs 0 points to purchase!
     cost(x) {
-        try {
-            let amt = new Decimal(x !== undefined ? x : player.b.points);
-            if (isNaN(amt.mag)) {
-                amt = new Decimal(0);
-            }
-            let formula = Decimal.pow(5, amt.pow(1.25)).times(200);
-            
-            if (player.g) {
-                if (player.g.points) {
-                    let genAmount = new Decimal(player.g.points);
-                    if (genAmount.gt(0)) {
-                        if (!isNaN(genAmount.mag)) {
-                            let power_calc = genAmount.pow(1.5);
-                            let factor = Decimal.pow(10, power_calc);
-                            formula = formula.times(factor);
-                        }
-                    }
-                }
-            }
-            if (player.g) {
-                if (player.g.unlocked) {
-                    if (!player.b.unlocked) {
-                        return formula.max(1000000);
-                    }
-                }
-            }
-            return formula;
-        } catch(e) { 
-            return new Decimal(200); 
-        }
+        return new Decimal(0);
     },
     
     resource: "boosters",
@@ -425,7 +397,8 @@ addLayer("b", {
         } catch(e) { 
             return new Decimal(0); 
         }
-    },
+    }, 
+
     type: "static",
     exponent: 1.25,
     gainMult() { return new Decimal(1) },
@@ -435,19 +408,14 @@ addLayer("b", {
         ["p", {"stroke": "#ffffff", "stroke-width": 4}]
     ], 
     
+    // EXPERT DYNAMIC VISIBILITY: Disappears completely if Generator reset occurs!
     layerShown() { 
         try {
-            if (player.p) {
-                if (player.p.total) {
-                    if (player.p.total.gt(0)) {
-                        return true;
-                    }
-                }
+            if (player.g && player.g.unlocked === true && player.b.unlocked === false) {
+                return false; // Vanishes completely instead of turning grey!
             }
-            if (player.b) {
-                if (player.b.unlocked) {
-                    return true;
-                }
+            if (player.p && player.p.total && player.p.total.gt(0)) {
+                return true;
             }
             return false;
         } catch(e) { 
@@ -455,118 +423,34 @@ addLayer("b", {
         }
     },
     
-    canBuyMax() { 
-        try {
-            if (!player.b) {
-                return false;
-            }
-            if (player.b.points === undefined) {
-                return false;
-            }
-            let b_pts = new Decimal(player.b.points);
-            if (b_pts.lt(15)) {
-                return false;
-            }
-            if (isNaN(b_pts.mag)) {
-                return false;
-            }
-            return true;
-        } catch(e) { 
-            return false; 
-        }
-    },
+    canBuyMax() { return false; },
     
     milestones: {
         0: { 
             requirement: new Decimal(8), 
             requirementDescription: "8 Boosters", 
             effectDescription: "Keep Prestige Upgrades on reset.", 
-            done() { 
-                try { 
-                    return player.b.points.gte(8); 
-                } catch(e) { 
-                    return false; 
-                } 
-            } 
+            done() { try { return player.b.points.gte(8); } catch(e) { return false; } } 
         },
         1: { 
             requirement: new Decimal(15), 
             requirementDescription: "15 Boosters", 
             effectDescription: "You can buy max Boosters.", 
-            done() { 
-                try { 
-                    return player.b.points.gte(15); 
-                } catch(e) { 
-                    return false; 
-                } 
-            } 
+            done() { try { return player.b.points.gte(15); } catch(e) { return false; } } 
         }
     },
     
     upgrades: {
-        11: { 
-            title: "BP Combo", 
-            description: "Best Boosters boost Prestige Point gain.", 
-            cost: new Decimal(3), 
-            effect() { 
-                try { 
-                    return player.b.points.sqrt().add(1); 
-                } catch(e) { 
-                    return new Decimal(1); 
-                } 
-            } 
-        },
-        12: { 
-            title: "Cross-Contamination", 
-            description: "Generators add to the Booster base.", 
-            cost: new Decimal(7), 
-            unlocked() { 
-                try { 
-                    let unl = player.b.unlocked || (player.g && player.g.unlocked);
-                    return unl;
-                } catch(e) { 
-                    return false; 
-                } 
-            }, 
-            effect() { 
-                try { 
-                    let x = player.g ? player.g.points : new Decimal(0); 
-                    let logged = x.add(1).log10();
-                    let added = logged.add(1);
-                    let sqrted = added.sqrt();
-                    return sqrted.div(3); 
-                } catch(e) { 
-                    return new Decimal(1); 
-                } 
-            } 
-        },
-        13: { 
-            title: "PB Reversal", 
-            description: "Total Prestige Points add to the Booster effect base.", 
-            cost: new Decimal(8), 
-            unlocked() { 
-                try { 
-                    return player.b.points.gte(7); 
-                } catch(e) { 
-                    return false; 
-                } 
-            }, 
-            effect() { 
-                try { 
-                    let log1 = player.p.points.add(1).log10();
-                    let log2 = log1.add(1).log10();
-                    return log2.div(3); 
-                } catch(e) { 
-                    return new Decimal(1); 
-                } 
-            } 
-        },
+        11: { title: "BP Combo", description: "Best Boosters boost Prestige Point gain.", cost: new Decimal(3), effect() { try { return player.b.points.sqrt().add(1); } catch(e) { return new Decimal(1); } } },
+        12: { title: "Cross-Contamination", description: "Generators add to the Booster base.", cost: new Decimal(7), unlocked() { try { return player.b.unlocked || (player.g && player.g.unlocked); } catch(e) { return false; } }, effect() { try { let x = player.g ? player.g.points : new Decimal(0); return x.add(1).log10().add(1).sqrt().div(3); } catch(e) { return new Decimal(1); } } },
+        13: { title: "PB Reversal", description: "Total Prestige Points add to the Booster effect base.", cost: new Decimal(8), unlocked() { try { return player.b.points.gte(7); } catch(e) { return false; } }, effect() { try { return player.p.points.add(1).log10().add(1).log10().div(3); } catch(e) { return new Decimal(1); } } },
     },
 });
 
+
 // ============================================================================
 // THE INFINITE HORIZON TREE - ANTI-CRASH TITANIC SHIELD (v0.9)
-// FILE: js/03_generators.js - PART 1 (gk1)
+// FILE: js/03_generators.js - INFLATION REMOVED (gk1)
 // ============================================================================
 
 addLayer("g", {
@@ -606,37 +490,9 @@ addLayer("g", {
         }
     },
     
+    // INSTANT FREE COST SYSTEM: Always costs 0 points to purchase!
     cost(x) {
-        try {
-            let amt = new Decimal(x !== undefined ? x : player.g.points);
-            if (isNaN(amt.mag)) {
-                amt = new Decimal(0);
-            }
-            let formula = Decimal.pow(5, amt.pow(1.25)).times(200);
-            
-            if (player.b) {
-                if (player.b.points) {
-                    let boostAmount = new Decimal(player.b.points);
-                    if (boostAmount.gt(0)) {
-                        if (!isNaN(boostAmount.mag)) {
-                            let power_calc = boostAmount.pow(1.5);
-                            let factor = Decimal.pow(10, power_calc);
-                            formula = formula.times(factor);
-                        }
-                    }
-                }
-            }
-            if (player.b) {
-                if (player.b.unlocked) {
-                    if (!player.g.unlocked) {
-                        return formula.max(1000000);
-                    }
-                }
-            }
-            return formula;
-        } catch(e) { 
-            return new Decimal(200); 
-        }
+        return new Decimal(0);
     },
     
     resource: "generators",
@@ -653,7 +509,8 @@ addLayer("g", {
         } catch(e) { 
             return new Decimal(0); 
         }
-    },
+    }, 
+
     type: "static",
     exponent: 1.25,
     gainMult() { return new Decimal(1) },
@@ -663,19 +520,14 @@ addLayer("g", {
         ["p", {"stroke": "#ffffff", "stroke-width": 4}]
     ], 
     
+    // EXPERT DYNAMIC VISIBILITY: Disappears completely if Booster reset occurs!
     layerShown() { 
         try {
-            if (player.p) {
-                if (player.p.total) {
-                    if (player.p.total.gt(0)) {
-                        return true;
-                    }
-                }
+            if (player.b && player.b.unlocked === true && player.g.unlocked === false) {
+                return false; // Vanishes completely instead of turning grey!
             }
-            if (player.g) {
-                if (player.g.unlocked) {
-                    return true;
-                }
+            if (player.p && player.p.total && player.p.total.gt(0)) {
+                return true;
             }
             return false;
         } catch(e) { 
@@ -683,105 +535,37 @@ addLayer("g", {
         }
     },
     
-    canBuyMax() { 
-        try {
-            if (!player.g) {
-                return false;
-            }
-            if (player.g.points === undefined) {
-                return false;
-            }
-            let g_pts = new Decimal(player.g.points);
-            if (g_pts.lt(15)) {
-                return false;
-            }
-            if (isNaN(g_pts.mag)) {
-                return false;
-            }
-            return true;
-        } catch(e) { 
-            return false; 
-        }
-    },
+    canBuyMax() { return false; },
     
     update(diff) {
         try {
-            if (player.g) {
-                if (player.g.unlocked) {
-                    let gain = player.g.points.pow(2);
-                    let g_eff = this.effect();
-                    if (!isNaN(g_eff.mag)) {
-                        gain = gain.times(g_eff);
-                    }
-                    player.g.power = player.g.power.add(gain.times(diff));
-                    
-                    if (player.g.points.gte(10)) {
-                        let ppGain = getResetGain("p");
-                        if (!isNaN(ppGain.mag)) {
-                            player.p.points = player.p.points.add(ppGain.times(diff));
-                        }
+            if (player.g && player.g.unlocked) {
+                let gain = player.g.points.pow(2);
+                let g_eff = this.effect();
+                if (!isNaN(g_eff.mag)) {
+                    gain = gain.times(g_eff);
+                }
+                player.g.power = player.g.power.add(gain.times(diff));
+                
+                if (player.g.points.gte(10)) {
+                    let ppGain = getResetGain("p");
+                    if (!isNaN(ppGain.mag)) {
+                        player.p.points = player.p.points.add(ppGain.times(diff));
                     }
                 }
             }
-        } catch(e) { 
-            /* Shield active */ 
-        }
+        } catch(e) { /* Shield active */ }
     },
     
     milestones: {
-        0: { 
-            requirement: new Decimal(8), 
-            requirementDescription: "8 Generators", 
-            effectDescription: "Keep Prestige Upgrades on reset.", 
-            done() { 
-                try { 
-                    return player.g.points.gte(8); 
-                } catch(e) { 
-                    return false; 
-                } 
-            } 
-        },
-        1: { 
-            requirement: new Decimal(10), 
-            requirementDescription: "10 Generators", 
-            effectDescription: "You gain 100% of Prestige Point gain every second.", 
-            done() { 
-                try { 
-                    return player.g.points.gte(10); 
-                } catch(e) { 
-                    return false; 
-                } 
-            } 
-        },
-        2: { 
-            requirement: new Decimal(15), 
-            requirementDescription: "15 Generators", 
-            effectDescription: "You can buy max Generators.", 
-            done() { 
-                try { 
-                    return player.g.points.gte(15); 
-                } catch(e) { 
-                    return false; 
-                } 
-            } 
-        }
+        0: { requirement: new Decimal(8), requirementDescription: "8 Generators", effectDescription: "Keep Prestige Upgrades on reset.", done() { try { return player.g.points.gte(8); } catch(e) { return false; } } },
+        1: { requirement: new Decimal(10), requirementDescription: "10 Generators", effectDescription: "You gain 100% of Prestige Point gain every second.", done() { try { return player.g.points.gte(10); } catch(e) { return false; } } },
+        2: { requirement: new Decimal(15), requirementDescription: "15 Generators", effectDescription: "You can buy max Generators.", done() { try { return player.g.points.gte(15); } catch(e) { return false; } } }
     },
     
     upgrades: {
-        11: { 
-            title: "GP Combo", 
-            description: "Best Generators boost Prestige Point gain.", 
-            cost: new Decimal(3) 
-        },
-        12: { 
-            title: "I Need More!", 
-            description: "Boosters add to the Generator base.", 
-            cost: new Decimal(7) 
-        },
-        13: { 
-            title: "I Need More II", 
-            description: "Best Prestige Points add to the Generator base.", 
-            cost: new Decimal(8) 
-        },
+        11: { title: "GP Combo", description: "Best Generators boost Prestige Point gain.", cost: new Decimal(3) },
+        12: { title: "I Need More!", description: "Boosters add to the Generator base.", cost: new Decimal(7) },
+        13: { title: "I Need More II", description: "Best Prestige Points add to the Generator base.", cost: new Decimal(8) },
     },
 });
