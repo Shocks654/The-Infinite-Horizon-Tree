@@ -233,20 +233,3 @@ function runGlobalTelemetryDiagnostic() {
         /* Bypassed */
     }
 }
-
-try {
-    setInterval(function() {
-        runGlobalTelemetryDiagnostic();
-    }, 5000);
-} catch(e) {
-    console.error("❌ CRITICAL: Nem sikerült elindítani a háttérben pörgő 5 másodperces biztonsági óraművet!");
-}
-
-
-try {
-    setInterval(function() {
-        runGlobalTelemetryDiagnostic();
-    }, 5000);
-} catch(e) {
-    console.error("❌ CRITICAL: Nem sikerült elindítani a háttérben pörgő 5 másodperces biztonsági óraművet!");
-}
