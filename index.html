@@ -33,37 +33,31 @@
 	<link rel="stylesheet" type="text/css" href="css/popup.css" />
 	<link rel="stylesheet" type="text/css" href="css/tree-node.css" />
 
-	<!-- HIGHEST PRIORITY VUE CORE LOADING WITH DEFER MATRIX TO PREVENT LOADING SCREENS FROM FREEZING -->
-	<script src="https://cloudflare.com" defer></script>
-	
-	<!-- CORE MATHEMATICS AND FRAMEWORK EXTENSIONS -->
-	<script src="js/technicalTIHT/break_eternity.js" defer></script>
-	<script src="js/technicalTIHT/layerSupport.js" defer></script>
+	<!-- IMMEDIATE VUE CORE LOADING SYSTEM WITH NO DEFER DELAYS -->
+	<script src="https://cloudflare.com"></script>
+	<script src="js/technicalTIHT/break_eternity.js"></script>
+	<script src="js/technicalTIHT/layerSupport.js"></script>
 
-	<!-- MOD INITIALIZATION AND LAYER STRUCTURES -->
-	<script src="js/mod.js" defer></script>
-	<script src="js/layers.js" defer></script>
+	<script src="js/mod.js"></script>
+	<script src="js/layers.js"></script>
+	<script src="js/technicalTIHT/loader.js"></script>
 
-	<!-- ENGINE BOOTLOADERS AND DISPLAY UTILITIES -->
-	<script src="js/technicalTIHT/loader.js" defer></script>
-	<script src="js/technicalTIHT/temp.js" defer></script>
-	<script src="js/technicalTIHT/displays.js" defer></script>
+	<script src="js/technicalTIHT/temp.js"></script>
+	<script src="js/technicalTIHT/displays.js"></script>
 	
-	<!-- GAME LOOP AND CORE SAVE SYSTEMS -->
-	<script src="js/game.js" defer></script>
-	<script src="js/utils.js" defer></script>
-	<script src="js/utils/easyAccess.js" defer></script>
-	<script src="js/technicalTIHT/systemComponents.js" defer></script>
-	<script src="js/components.js" defer></script>
-	<script src="js/technicalTIHT/canvas.js" defer></script>
-	<script src="js/technicalTIHT/particleSystem.js" defer></script>
-	<script src="js/utils/NumberFormating.js" defer></script>
-	<script src="js/utils/options.js" defer></script>
-	<script src="js/utils/save.js" defer></script>
-	<script src="js/utils/themes.js" defer></script>
+	<script src="js/game.js"></script>
+	<script src="js/utils.js"></script>
+	<script src="js/utils/easyAccess.js"></script>
+	<script src="js/technicalTIHT/systemComponents.js"></script>
+	<script src="js/components.js"></script>
+	<script src="js/technicalTIHT/canvas.js"></script>
+	<script src="js/technicalTIHT/particleSystem.js"></script>
+	<script src="js/utils/NumberFormating.js"></script>
+	<script src="js/utils/options.js"></script>
+	<script src="js/utils/save.js"></script>
+	<script src="js/utils/themes.js"></script>
 
 </head>
-
 
 <body onload="load()" onmousemove="updateMouse(event)">
 	<div id="app">
