@@ -190,85 +190,37 @@ function applySoftcap(val, start, type, mag) {
 var isVueEngineFullyBooted = false;
 var autoBootClockTimer = null;
 
-function checkGlobalSaveIntegrity() {
+function runGlobalTelemetryDiagnostic() {
     try {
-        if (typeof Vue === 'undefined') {
-            console.error("❌ INTEGRITY WARNING: A Vue.js keretrendszer még nem töltődött be a cdnjs felhőből! A Metamátrix pajzs most kényszerített késleltetést indít el, hogy megvédje a fát a ReferenceError fagyástól!");
+        let verification = checkGlobalSaveIntegrity();
+        if (verification === true) {
+            console.log("🟢 THE INFINITE HORIZON TREE: Az 1K-s megerősített betonpajzs matrix sikeresen lefutott.");
             
-            // Start looping every 5 seconds if not already running
-            if (autoBootClockTimer === null) {
-                autoBootClockTimer = setInterval(function() {
-                    try {
-                        if (typeof Vue !== 'undefined') {
-                            if (isVueEngineFullyBooted === false) {
-                                console.log("⚡ EMERGENCY BREAKTHROUGH: A Vue sikeresen letöltődött a felhőből! Kényszerített AUTO-BOOT indítása most...");
-                                isVueEngineFullyBooted = true;
-                                
-                                if (typeof load === 'function') {
-                                    load(); // Safely wake up the prestige tree engine
-                                }
-                                
-                                // ABSOLUTE KILL SWITCH: Instantly stops looping forever once successful!
-                                clearInterval(autoBootClockTimer);
-                                autoBootClockTimer = "STOPPED";
-                                console.log("🛑 SHIELD DISENGAGED: Az indítás sikeres volt, a mentőrakéta leállította magát!");
-                            }
-                        } else {
-                            console.warn("⚠️ AUTO-BOOT RE-TRY: A Vue még mindig hiányzik, újabb próba 5 másodperc múlva...");
-                        }
-                    } catch(loopErr) {
-                        /* Auto-boot insulation safe */
-                    }
-                }, 5000);
-            }
-            
-            return false;
-        }
-    } catch(vueException) {
-        /* Vue security interception active */
-    }
-
-    try {
-        if (player) {
-            if (player.points) {
-                let p_check = new Decimal(player.points);
-                if (isNaN(p_check.mag)) {
-                    console.error("⚠️ CRITICAL RECOVERY: A regular Pontjaid értéke NaN (Sérült) lett! A Metamátrix pajzs azonnal közbelépett és visszaállította 10 pontra, hogy megvédje a mentésed!");
-                    player.points = new Decimal(10);
+            // FORCED CYBERPUNK BOOT INTERCEPTOR: Hard-destroys the freezing loading screen
+            setTimeout(function() {
+                let loadSection = document.getElementById("loadingSection");
+                if (loadSection) {
+                    loadSection.style.display = "none"; 
+                    loadSection.remove(); 
                 }
-            }
-            if (player.p) {
-                if (player.p.points) {
-                    let pp_check = new Decimal(player.p.points);
-                    if (isNaN(pp_check.mag)) {
-                        console.error("⚠️ CRITICAL RECOVERY: A Prestige Pontjaid értéke NaN lett! A pajzs azonnal nullázta a fertőzést, mielőtt lefagyna a játék!");
-                        player.p.points = new Decimal(0);
-                    }
+                let appFrame = document.getElementById("app");
+                if (appFrame && appFrame.style.visibility === "hidden") {
+                    appFrame.style.visibility = "visible";
                 }
-            }
-            if (player.b) {
-                if (player.b.points) {
-                    let b_check = new Decimal(player.b.points);
-                    if (isNaN(b_check.mag)) {
-                        console.error("⚠️ CRITICAL RECOVERY: A Boosterek darabszáma meghalt a memóriában! A pajzs biztonságosan újraindította a Booster pontokat!");
-                        player.b.points = new Decimal(0);
-                    }
-                }
-            }
-            if (player.g) {
-                if (player.g.points) {
-                    let g_check = new Decimal(player.g.points);
-                    if (isNaN(g_check.mag)) {
-                        console.error("⚠️ CRITICAL RECOVERY: A Generátorok darabszáma megsérült! A telemetria biztonságosan elkülönítette a hibát!");
-                        player.g.points = new Decimal(0);
-                    }
-                }
-            }
+            }, 500);
         }
     } catch(e) {
-        console.error("❌ SHIELD DIAGNOSTIC: A háttérben futó automatikus mentés-ellenőrző szkenner hiba miatt leállt!");
+        /* Diagnostic insulation safe */
     }
-    return true;
+}
+
+try {
+    // Accelerate clock to 2 seconds for faster auto-boot interception
+    setInterval(function() {
+        runGlobalTelemetryDiagnostic();
+    }, 2000);
+} catch(e) {
+    console.error("❌ CRITICAL: Nem sikerült elindítani a háttérben pörgő biztonsági óraművet!");
 }
 
 function runGlobalTelemetryDiagnostic() {
