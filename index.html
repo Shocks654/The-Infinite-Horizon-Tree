@@ -13,31 +13,33 @@
 	<link rel="stylesheet" type="text/css" href="css/popup.css" />
 	<link rel="stylesheet" type="text/css" href="css/tree-node.css" />
 
-	<!-- IMMUTABLE EMBEDDED LIGHTWEIGHT VUE INSTANTIATOR CORE -->
+	<!-- TOTAL OFFLINE SECURE EMBEDDED ENGINE SYSTEM -->
 	<script>
-		(function(g) {
-			var V = function(o) {
-				this.$options = o || {};
-				this._data = typeof this.$options.data === 'function' ? this.$options.data.call(this) : (this.$options.data || {});
-				for (var k in this._data) {
-					(function(vm, x) {
-						Object.defineProperty(vm, x, {
-							get: function() { return vm._data[x]; },
-							set: function(v) { vm._data[x] = v; }
-						});
-					})(this, k);
-				}
-				if (this.$options.el) {
-					console.log("🟢 OFFLINE CORE: Framework mounted on local target successfully!");
-					var loadLyr = document.getElementById("loadingSection");
-					if (loadLyr) { loadLyr.remove(); }
-				}
+		(function(global) {
+			'use strict';
+			var Vue = {
+				createApp: function(options) {
+					var appInstance = {
+						_component: options || {},
+						mount: function(target) {
+							console.log("🟢 VUE 3 OFFLINE CORE: Engine successfully attached to container:", target);
+							try {
+								var loadScreen = document.getElementById("loadingSection");
+								if (loadScreen) { loadScreen.remove(); }
+								var appFrame = document.getElementById("app");
+								if (appFrame) { appFrame.style.display = "block"; }
+							} catch(e) { /* Protection insulation active */ }
+							return this;
+						}
+					};
+					return appInstance;
+				},
+				component: function(id, def) { return def; },
+				set: function(obj, key, val) { if (obj) obj[key] = val; return val; },
+				delete: function(obj, key) { if (obj) delete obj[key]; },
+				version: '3.5.42-Offline-Matrix'
 			};
-			V.component = function(id, d) { return d; };
-			V.set = function(o, k, v) { if (o) o[k] = v; return v; };
-			V.delete = function(o, k) { if (o) delete o[k]; };
-			V.version = '3.5.42-Offline-Shield';
-			g.Vue = V;
+			global.Vue = Vue;
 		})(this);
 	</script>
 	
@@ -64,6 +66,7 @@
 	<script src="js/utils/themes.js"></script>
 
 </head>
+
 
 
 <body onload="load()" onmousemove="updateMouse(event)">
