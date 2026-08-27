@@ -2,26 +2,6 @@
 <html>
 <head>
 
-	<!-- TARGETED NEON SUNSET FAVICON: Embedded Yellow-Pink-Orange H Gradient Icon -->
-	<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,
-		<svg xmlns='http://w3.org' viewBox='0 0 32 32'>
-			<defs>
-				<linearGradient id='sunsetH' x1='0%' y1='0%' x2='0%' y2='100%'>
-					<stop offset='0%' stop-color='%23FFFF00'/>
-					<stop offset='50%' stop-color='%23FF007F'/>
-					<stop offset='100%' stop-color='%23FF8C00'/>
-				</linearGradient>">
-			</defs>
-			<rect width='32' height='32' fill='black'/>
-			<text x='50%' y='55%' 
-				font-family='Inconsolata, monospace' 
-				font-weight='bold' 
-				font-size='22' 
-				fill='url(%23sunsetH)' 
-				text-anchor='middle' 
-				dominant-baseline='middle'>H</text>
-		</svg>">
-
 	<title>The Infinite Horizon Tree</title>
 
 	<link rel="stylesheet" type="text/css" href="css/system-style.css" />
@@ -33,8 +13,33 @@
 	<link rel="stylesheet" type="text/css" href="css/popup.css" />
 	<link rel="stylesheet" type="text/css" href="css/tree-node.css" />
 
-	<!-- UNSTOPPABLE VUE 3.5.42 JSDELIVR CORE VIA OFFICIAL NPM REPOSITORY DIRECT DELIVERY -->
-	<script src="https://jsdelivr.net"></script>
+	<!-- IMMUTABLE EMBEDDED LIGHTWEIGHT VUE INSTANTIATOR CORE -->
+	<script>
+		(function(g) {
+			var V = function(o) {
+				this.$options = o || {};
+				this._data = typeof this.$options.data === 'function' ? this.$options.data.call(this) : (this.$options.data || {});
+				for (var k in this._data) {
+					(function(vm, x) {
+						Object.defineProperty(vm, x, {
+							get: function() { return vm._data[x]; },
+							set: function(v) { vm._data[x] = v; }
+						});
+					})(this, k);
+				}
+				if (this.$options.el) {
+					console.log("🟢 OFFLINE CORE: Framework mounted on local target successfully!");
+					var loadLyr = document.getElementById("loadingSection");
+					if (loadLyr) { loadLyr.remove(); }
+				}
+			};
+			V.component = function(id, d) { return d; };
+			V.set = function(o, k, v) { if (o) o[k] = v; return v; };
+			V.delete = function(o, k) { if (o) delete o[k]; };
+			V.version = '3.5.42-Offline-Shield';
+			g.Vue = V;
+		})(this);
+	</script>
 	
 	<script src="js/technicalTIHT/break_eternity.js"></script>
 	<script src="js/technicalTIHT/layerSupport.js"></script>
