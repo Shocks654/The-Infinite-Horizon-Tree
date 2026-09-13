@@ -1,4 +1,4 @@
-## The infinite Horizon Tree
+## The Infinite Horizon Tree
 A GitHub repsitory that will be great! Let's look at the main features!:
 - Feature No.1: 60 layers!
 - Feature No.2: Expanding always to Infinity!
