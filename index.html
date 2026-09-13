@@ -40,6 +40,37 @@
             
             ctx.clearRect(0, 0, canvas.width, canvas.height);
         })();
+                (function () {
+            'use strict';
+            var canvas = document.getElementById('treeCanvas');
+            var ctx = canvas.getContext('2d');
+            
+            var colors = ['#00e5ff', '#ff007f', '#ff6600'];
+            
+            function generateInfiniteBranch(startX, startY, currentLength, currentAngle, generationDepth) {
+                if (generationDepth > 10) return;
+                
+                var endX = startX + Math.cos(currentAngle) * currentLength;
+                var endY = startY + Math.sin(currentAngle) * currentLength;
+                
+                ctx.beginPath();
+                ctx.moveTo(startX, startY);
+                ctx.lineTo(endX, endY);
+                ctx.strokeStyle = colors[generationDepth % colors.length];
+                ctx.lineWidth = Math.max(1, 8 - generationDepth);
+                ctx.stroke();
+                ctx.closePath();
+                
+                var nextLength = currentLength * 0.75;
+                var spreadAngle = 0.45;
+                
+                generateInfiniteBranch(endX, endY, nextLength, currentAngle - spreadAngle, generationDepth + 1);
+                generateInfiniteBranch(endX, endY, nextLength, currentAngle + spreadAngle, generationDepth + 1);
+            }
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            generateInfiniteBranch(400, 550, 130, -Math.PI / 2, 0);
+        })();
     </script>
 </body>
 </html>
