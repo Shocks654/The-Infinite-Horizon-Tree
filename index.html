@@ -1,46 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>The Infinite Horizon Tree</title>
-
-	<link rel="stylesheet" type="text/css" href="css/system-style.css" />
-	<link rel="stylesheet" type="text/css" href="css/bars.css" />
-	<link rel="stylesheet" type="text/css" href="css/components.css" />
-	<link rel="stylesheet" type="text/css" href="css/general-style.css" />
-	<link rel="stylesheet" type="text/css" href="css/misc.css" />
-	<link rel="stylesheet" type="text/css" href="css/other-tabs.css" />
-	<link rel="stylesheet" type="text/css" href="css/popup.css" />
-	<link rel="stylesheet" type="text/css" href="css/tree-node.css" />
-
-	<!-- IMMUTABLE PRODUCTION VUE CORE DIRECTIVE FROM UNPKG CDN -->
-	<script src="https://unpkg.com"></script>
-	
-	<script src="js/technicalTIHT/break_eternity.js" defer></script>
-	<script src="js/technicalTIHT/layerSupport.js" defer></script>
-	<script src="js/mod.js" defer></script>
-	<script src="js/layers.js" defer></script>
-	<script src="js/technicalTIHT/loader.js" defer></script>
-	<script src="js/technicalTIHT/temp.js" defer></script>
-	<script src="js/technicalTIHT/displays.js" defer></script>
-	<script src="js/game.js" defer></script>
-	<script src="js/utils.js" defer></script>
-	<script src="js/utils/easyAccess.js" defer></script>
-	<script src="js/technicalTIHT/systemComponents.js" defer></script>
-	<script src="js/components.js" defer></script>
-	<script src="js/technicalTIHT/canvas.js" defer></script>
-	<script src="js/technicalTIHT/particleSystem.js" defer></script>
-	<script src="js/utils/NumberFormating.js" defer></script>
-	<script src="js/utils/options.js" defer></script>
-	<script src="js/utils/save.js" defer></script>
-	<script src="js/utils/themes.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infinite Horizon Tree</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #050505;
+            color: #ffffff;
+            font-family: monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+        #treeCanvas {
+            background-color: #000000;
+            box-shadow: 0 0 30px rgba(0, 229, 255, 0.1);
+        }
+    </style>
 </head>
-<body onload="load()">
-	<div id="app">
-		<div id="loadingSection">
-			<h1 style="color: #ffffff; text-align: center; margin-top: 20%;">Loading...</h1>
-		</div>
-	</div>
+<body>
+    <canvas id="treeCanvas" width="800" height="600"></canvas>
+    <script>
+        (function () {
+            'use strict';
+            var canvas = document.getElementById('treeCanvas');
+            var ctx = canvas.getContext('2d');
+            
+            var colors = {
+                cyan: '#00e5ff',
+                pink: '#ff007f',
+                orange: '#ff6600'
+            };
+            
+            ctx.fillStyle = colors.cyan;
+            ctx.font = '16px monospace';
+            ctx.fillText('Infinite Horizon Tree Engine Offline', 30, 40);
+        })();
+    </script>
 </body>
 </html>
