@@ -18,7 +18,7 @@ if (typeof window.Vue === 'undefined') {
         }
         
         if (this.$options.el) {
-            console.log("🟢 OFFLINE CORE DETECTED: Local window context attached successfully!");
+            console.log("Everything is ready. The Infinite Horizon Tree is now fully operational.");
             setTimeout(function() {
                 var loadSection = document.getElementById("loadingSection");
                 if (loadSection) { loadSection.remove(); }
@@ -103,7 +103,7 @@ function getPointGen() {
             }
         }
     } catch(e) {
-        console.error("❌ SHIELD DIAGNOSTIC: Gáz van a regular pontok kiszámításánál! Valamelyik Prestige Upgrade hibás értéket ad vissza vagy NaN lett!");
+        console.error("Regular point generation is not being applied correctly. Please check the Prestige layer for errors.");
     }
 
     try {
@@ -123,7 +123,7 @@ function getPointGen() {
             }
         }
     } catch(e) {
-        console.error("❌ SHIELD DIAGNOSTIC: A Booster szorzó összeomlott! Nem sikerült kiszámolni a 2^x exponenciális bónuszt a ponttermeléshez!");
+        console.error("Boosters crashed. x^2 multiplier is not being applied correctly. Please check the Booster layer for errors.");
     }
 
     try {
@@ -140,7 +140,7 @@ function getPointGen() {
             }
         }
     } catch(e) {
-        console.error("❌ SHIELD DIAGNOSTIC: Az Achievements (Achi) fül jutalomszámítása elhasalt! Ellenőrizd a 00_achievements.js fájlt!");
+        console.error("Achievement are not being applied correctly to point generation. Please check the achievement system for errors.");
     }
 
     return gain;
@@ -158,7 +158,7 @@ function isEndgame() {
         let status = player.points.gte(target);
         return status;
     } catch(e) {
-        console.warn("⚠️ SHIELD DIAGNOSTIC: Nem sikerült leellenőrizni az Endgame állapotot. Valószínűleg még túl messze vagyunk a végétől!");
+        console.warn("I can't determine if the game has ended because player.points is not a valid Decimal. Please check your save data.");
         return false;
     }
 }
@@ -173,7 +173,7 @@ function fixOldSave(oldVersion) {
     try {
         /* Legacy save shield engine operational */
     } catch(e) {
-        console.error("❌ SHIELD DIAGNOSTIC: A régi mentés verzióváltási migrációja megszakadt!");
+        console.error("There was an error while trying to fix the old save. Please report this issue to the mod developer.");
     }
 }
 
@@ -209,12 +209,13 @@ function applySoftcap(val, start, type, mag) {
             let divStart = s.div(s.log10().pow(m));
             return powVal.times(divStart);
         }
-        
-        return val;
-    } catch(e) {
-        console.warn("⚠️ SHIELD DIAGNOSTIC: Softcap számítási hiba történt, de a betonpajzs sikeresen visszaállította a nyers értéket!");
-        return val;
-    }
+        try {
+            
+        } catch (e) {
+            
+        }(e)=>{}
+        return val;}
+    finally{}
 }
 
 // ============================================================================
@@ -229,7 +230,7 @@ function runGlobalTelemetryDiagnostic() {
     try {
         let verification = checkGlobalSaveIntegrity();
         if (verification === true) {
-            console.log("🟢 THE INFINITE HORIZON TREE: Az 1K-s megerősített betonpajzs matrix sikeresen lefutott.");
+            console.log(" THE INFINITE HORIZON TREE");
             
             // FORCED CYBERPUNK BOOT INTERCEPTOR: Hard-destroys the freezing loading screen
             setTimeout(function() {
@@ -255,14 +256,14 @@ try {
         runGlobalTelemetryDiagnostic();
     }, 2000);
 } catch(e) {
-    console.error("❌ CRITICAL: Nem sikerült elindítani a háttérben pörgő biztonsági óraművet!");
+    console.error("CRITICAL");
 }
 
 function runGlobalTelemetryDiagnostic() {
     try {
         let verification = checkGlobalSaveIntegrity();
         if (verification === true) {
-            console.log("🟢 THE INFINITE HORIZON TREE: Az 1K-s megerősített betonpajzs matrix sikeresen lefutott. Minden mentési slot tiszta és védett a NaN hiba ellen!");
+            console.log("THE INFINITE HORIZON TREE");
         }
     } catch(e) {
         /* Bypassed */
