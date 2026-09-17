@@ -22,7 +22,6 @@
             background-color: #000000;
         }
     </style>
-    <script src="https://jsdelivr.net"></script>
 </head>
 <body>
     <canvas id="treeCanvas" width="800" height="600"></canvas>
@@ -32,6 +31,35 @@
             var canvas = document.getElementById('treeCanvas');
             var ctx = canvas.getContext('2d');
             ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            var networkState = {
+                jsDelivrLoaded: false,
+                cyclesChecked: 0,
+                maxCycles: 20,
+                checkIntervalMs: 100,
+                switched: false
+            };
+
+            var fallbackTimer = setInterval(function () {
+                if (window.InfiniteTreeModuleReady) {
+                    networkState.jsDelivrLoaded = true;
+                    clearInterval(fallbackTimer);
+                    return;
+                }
+                
+                networkState.cyclesChecked++;
+                
+                if (networkState.cyclesChecked >= networkState.maxCycles && !networkState.switched) {
+                    networkState.switched = true;
+                    clearInterval(fallbackTimer);
+                    
+                    console.log("[jsDelivr -> UNPKG] 20 Cycles has passed, and jsDelivr isn't working. Switching to UNPKG...");
+                    
+                    var fallbackScript = document.createElement('script');
+                    fallbackScript.src = "https://unpkg.com";
+                    document.head.appendChild(fallbackScript);
+                }
+            }, networkState.checkIntervalMs);
         })();
     </script>
 </body>
