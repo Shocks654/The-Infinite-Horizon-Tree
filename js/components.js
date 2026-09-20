@@ -1,6 +1,17 @@
 var app;
 
 function loadVue() {
+	Object.assign(Vue.prototype, {
+		player, tmp, options, modInfo, layoutInfo, layers, LAYERS, ROW_LAYERS, TREE_LAYERS, OTHER_LAYERS,
+		Decimal, format, formatWhole, formatTime, formatSmall, focused, getThemeName,
+		layerunlocked, nodeShown, readData, canGenPoints, getPointGen, showTab, showNavTab, goBack, doReset, buyUpg, buyUpgrade, startChallenge,
+		milestoneShown, keepGoing, hasUpgrade, hasMilestone, hasAchievement,
+		hasChallenge, maxedChallenge, getBuyableAmount, getClickableState,
+		inChallenge, canAffordUpgrade, canBuyBuyable, canCompleteChallenge,
+		subtabShouldNotify, subtabResetNotify, challengeStyle, challengeButtonText,
+		constructBarStyle, constructNodeStyle, constructParticleStyle, prestigeButtonText, achievementStyle, MS_DISPLAYS, MS_SETTINGS, formatOption, TMT_VERSION, VERSION, hotkeys, activePopups,
+		particles, mouseX, mouseY, shiftDown, ctrlDown, run, gridRun
+	})
 	// data = a function returning the content (actually HTML)
 	Vue.component('display-text', {
 		props: ['layer', 'data'],
@@ -501,12 +512,13 @@ function loadVue() {
 			key() {return this.$vnode.key}
 		},
 		template: `<div>
-		<span class="upgRow" v-for="(row, r) in data"><table>
-			<span v-for="(node, id) in row" style = "{width: 0px}">
+		<div class="upgRow" v-for="(row, r) in data">
+			<span v-for="(node, id) in row">
 				<tree-node :layer='node' :prev='layer' :abb='tmp[node].symbol' :key="key + '-' + r + '-' + id"></tree-node>
 			</span>
-			<tr><table><button class="treeNode hidden"></button></table></tr>
-		</span></div>
+			<button class="treeNode hidden"></button>
+		</div>
+	</div>
 
 	`
 	})
@@ -649,6 +661,9 @@ function loadVue() {
 			constructParticleStyle,
 			VERSION,
 			LAYERS,
+			ROW_LAYERS,
+			TREE_LAYERS,
+			OTHER_LAYERS,
 			hotkeys,
 			activePopups,
 			particles,

@@ -4,63 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Infinite Horizon Tree</title>
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: #050505;
-            color: #ffffff;
-            font-family: monospace;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            overflow: hidden;
-        }
-        #treeCanvas {
-            background-color: #000000;
-        }
-    </style>
 </head>
 <body>
-    <canvas id="treeCanvas" width="800" height="600"></canvas>
     <script>
-        (function () {
-            'use strict';
-            var canvas = document.getElementById('treeCanvas');
-            var ctx = canvas.getContext('2d');
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            var networkState = {
-                jsDelivrLoaded: false,
-                cyclesChecked: 0,
-                maxCycles: 20,
-                checkIntervalMs: 2000,
-                switched: false
-            };
-
-            var fallbackTimer = setInterval(function () {
-                if (window.InfiniteTreeModuleReady) {
-                    networkState.jsDelivrLoaded = true;
-                    clearInterval(fallbackTimer);
-                    return;
-                }
-                
-                networkState.cyclesChecked++;
-                
-                if (networkState.cyclesChecked >= networkState.maxCycles && !networkState.switched) {
-                    networkState.switched = true;
-                    clearInterval(fallbackTimer);
-                    
-                    console.log("[jsDelivr -> UNPKG] 20 Cycles has passed, and jsDelivr isn't working. Switching to UNPKG...");
-                    
-                    var fallbackScript = document.createElement('script');
-                    fallbackScript.src = "https://unpkg.com";
-                    document.head.appendChild(fallbackScript);
-                }
-            }, networkState.checkIntervalMs);
-        })();
+        window.location.replace("demo.html");
     </script>
 </body>
 </html>

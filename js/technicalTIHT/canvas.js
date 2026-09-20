@@ -26,8 +26,10 @@ var colors_theme
 
 function drawTree() {
 	if (!retrieveCanvasData()) return;
+	if (!layers || !tmp || !Object.keys(tmp).length) return;
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 	for (layer in layers){
+		if (!tmp[layer]) continue;
 		if (tmp[layer].layerShown == true && tmp[layer].branches){
 			for (branch in tmp[layer].branches)
 				{
@@ -58,10 +60,17 @@ function drawTreeBranch(num1, data, prefix) { // taken from Antimatter Dimension
 	let num2 = data
 	let color_id = 1
 	let width = 15
+	let branchStyle = {}
 	if (Array.isArray(data)){
 		num2 = data[0]
-		color_id = data[1]
-		width = data[2] || width
+		if (data[1] && typeof data[1] === "object") {
+			branchStyle = data[1]
+			color_id = branchStyle.stroke || "#ffffff"
+			width = branchStyle["stroke-width"] || width
+		} else {
+			color_id = data[1]
+			width = data[2] || width
+		}
 	}
 
 	if(typeof(color_id) == "number")

@@ -345,7 +345,7 @@ addLayer("p", {
 addLayer("b", {
     name: "Boosters",
     symbol: "B",
-    row: 1,
+    row: 2,
     position: -1, 
     
     startData() { 
@@ -356,6 +356,9 @@ addLayer("b", {
     },
     
     color: "#4b0082", 
+    requires() {
+        return player.g && player.g.total && player.g.total.gt(0) ? new Decimal(1000000) : new Decimal(200);
+    },
 
     effect() {
         try {
@@ -386,8 +389,9 @@ addLayer("b", {
                 amt = new Decimal(0);
             }
             
-            // Baseline exponential cost scaling
-            let formula = Decimal.pow(5, amt.pow(1.25)).times(200);
+            // The first row-2 layer costs 200; the other starts at 1,000,000.
+            let baseCost = player.g && player.g.total && player.g.total.gt(0) ? 1000000 : 200;
+            let formula = Decimal.pow(5, amt.pow(1.25)).times(baseCost);
             
             // Cross-inflation modifier: Alternative layer inflation multiplier
             if (player.g && player.g.points) {
@@ -397,10 +401,6 @@ addLayer("b", {
                 }
             }
             
-            // Hard hide-lock barrier rules
-            if (player.g && player.g.unlocked === true && player.b.unlocked === false) {
-                return new Decimal("1e300");
-            }
             return formula;
         } catch(e) { 
             return new Decimal(200); 
@@ -436,13 +436,7 @@ addLayer("b", {
     
     layerShown() { 
         try {
-            if (player.g && player.g.unlocked === true && player.b.unlocked === false) {
-                return false; 
-            }
-            if (player.p && player.p.total && player.p.total.gt(0)) {
-                return true;
-            }
-            return false;
+            return player.p && player.p.total && player.p.total.gt(0);
         } catch(e) { 
             return false; 
         }
@@ -511,7 +505,7 @@ addLayer("b", {
 addLayer("g", {
     name: "Generators",
     symbol: "G",
-    row: 1,
+    row: 2,
     position: 1, 
     
     startData() { 
@@ -523,6 +517,9 @@ addLayer("g", {
     },
     
     color: "#98fb98", 
+    requires() {
+        return player.b && player.b.total && player.b.total.gt(0) ? new Decimal(1000000) : new Decimal(200);
+    },
 
     effect() {
         try {
@@ -553,8 +550,9 @@ addLayer("g", {
                 amt = new Decimal(0);
             }
             
-            // Baseline exponential cost scaling: Starts at 1,000,000 instead of 200!
-            let formula = Decimal.pow(5, amt.pow(1.25)).times(1000000);
+            // The first row-2 layer costs 200; the other starts at 1,000,000.
+            let baseCost = player.b && player.b.total && player.b.total.gt(0) ? 1000000 : 200;
+            let formula = Decimal.pow(5, amt.pow(1.25)).times(baseCost);
             
             // Cross-inflation modifier: Alternative layer inflation multiplier
             if (player.b && player.b.points) {
@@ -564,10 +562,6 @@ addLayer("g", {
                 }
             }
             
-            // Hard hide-lock barrier rules
-            if (player.b && player.b.unlocked === true && player.g.unlocked === false) {
-                return new Decimal("1e300");
-            }
             return formula;
         } catch(e) { 
             return new Decimal(1000000); 
@@ -603,13 +597,7 @@ addLayer("g", {
     
     layerShown() { 
         try {
-            if (player.b && player.b.unlocked === true && player.g.unlocked === false) {
-                return false; 
-            }
-            if (player.p && player.p.total && player.p.total.gt(0)) {
-                return true;
-            }
-            return false;
+            return player.p && player.p.total && player.p.total.gt(0);
         } catch(e) { 
             return false; 
         }
