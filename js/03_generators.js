@@ -36,10 +36,10 @@ addLayer("g", {
     
     effectDescription() {
         try { 
-            let val = this.effect();
-            return "which are boosting Generator Power gain by " + format(val) + "x"; 
+            let powerGain = Decimal.pow(2, player.g.points).sub(1).max(0);
+            return "Generating " + format(powerGain) + " Generator Power/sec. Current Power: " + format(player.g.power) + ", boosting Point generation by " + format(this.getGenPowerEff()) + "x";
         } catch(e) { 
-            return "boosting by 1x"; 
+            return "Generating 0 Generator Power/sec"; 
         }
     },
     
@@ -138,7 +138,7 @@ addLayer("g", {
     update(diff) {
         try {
             if (player.g && player.g.unlocked) {
-                let gain = player.g.points.pow(2);
+                let gain = Decimal.pow(2, player.g.points).sub(1).max(0);
                 let g_eff = this.effect();
                 if (!isNaN(g_eff.mag)) {
                     gain = gain.times(g_eff);

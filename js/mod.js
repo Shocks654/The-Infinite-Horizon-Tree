@@ -127,6 +127,14 @@ function getPointGen() {
     }
 
     try {
+        if (player && player.g && player.g.unlocked && layers.g && layers.g.getGenPowerEff) {
+            gain = gain.times(layers.g.getGenPowerEff());
+        }
+    } catch(e) {
+        console.error("Generator Power is not being applied correctly.");
+    }
+
+    try {
         if (player) {
             if (player.a) {
                 if (player.a.achievements) {
