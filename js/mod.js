@@ -61,7 +61,7 @@ let VERSION = {
 };
 
 let changelog = "<h1>Changelog:</h1><br><h3>v0.9</h3><br>- Adding a LOT of layers.<br>";
-let winText = "Congratulations! You have reached the end of the current version!";
+let winText = "Demo end! The Infinite Horizon Tree coming in 2027 summer, or fall/autumn!";
 var doNotCallTheseFunctionsEveryTick = ["Idonotknowwhatisthis"];
 
 function getStartPoints() {
@@ -162,7 +162,7 @@ var displayThings = [];
 
 function isEndgame() { 
     try {
-        let target = new Decimal("e1e10000000000");
+        let target = new Decimal("1e100");
         let status = player.points.gte(target);
         return status;
     } catch(e) {
