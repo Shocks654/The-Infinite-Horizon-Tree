@@ -46,6 +46,9 @@ let modInfo = {
     modFiles: [
         "tree.js",
         "00_achievements.js",
+        "01_prestige.js",
+        "02_boosters.js",
+        "03_generators.js",
         "layers.js"
     ],
     discordName: "",
@@ -61,7 +64,7 @@ let VERSION = {
 };
 
 let changelog = "<h1>Changelog:</h1><br><h3>v0.9</h3><br>- Adding a LOT of layers.<br>";
-let winText = "Demo end! The Infinite Horizon Tree coming in 2027 summer, or fall/autumn!";
+let winText = "Congratulations! You have reached the end and beaten this game, but for now...";
 var doNotCallTheseFunctionsEveryTick = ["Idonotknowwhatisthis"];
 
 function getStartPoints() {
@@ -162,7 +165,7 @@ var displayThings = [];
 
 function isEndgame() { 
     try {
-        let target = new Decimal("1e100");
+        let target = new Decimal("e1e100000000000000000000000000000000");
         let status = player.points.gte(target);
         return status;
     } catch(e) {
