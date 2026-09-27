@@ -9,6 +9,7 @@ var layoutInfo = {
 // Map layout definition array to prevent initialization loop errors
 var testTree = [
     ["p"] // Row 0 contains only your Prestige ("p") layer
+    ["b", "g"] // Row 1 contains your Booster ("b") and Generator ("g") layers
 ]
 
 // Register the main tree tab within the game engine

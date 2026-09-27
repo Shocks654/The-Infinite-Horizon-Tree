@@ -46,6 +46,9 @@ let modInfo = {
     modFiles: [
         "tree.js",
         "00_achievements.js",
+        "01_prestige.js",
+        "02_boosters.js",
+        "03_generators.js",
         "layers.js"
     ],
     discordName: "",
