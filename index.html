@@ -3,11 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Infinite Horizon Tree</title>
+    <title>The Infinite Horizon Tree - Galaxy Demo</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #050505;
+            color: #ffffff;
+            font-family: monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+        #demoCanvas {
+            background-color: #000000;
+        }
+    </style>
 </head>
 <body>
+    <canvas id="demoCanvas" width="800" height="600"></canvas>
     <script>
-        window.location.replace("demo.html");
+        (function (global) {
+            'use strict';
+            var canvas = document.getElementById('demoCanvas');
+            var ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            global.GalaxyDemoReady = true;
+        })(this);
     </script>
 </body>
 </html>
+
